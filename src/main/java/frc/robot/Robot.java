@@ -4,9 +4,12 @@
 
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.DriveSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -19,6 +22,17 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
+  private DriveSubsystem driveSubsystem = m_robotContainer.driveSubsystem;
+  
+  private static final WPI_TalonFX leftBackMotor = RobotMap.leftBackDriveMotor;
+  private static final WPI_TalonFX rightBackMotor = RobotMap.rightBackDriveMotor;
+  private static final WPI_TalonFX leftFrontMotor = RobotMap.leftFrontDriveMotor;
+  private static final WPI_TalonFX rightFrontMotor = RobotMap.rightFrontDriveMotor;
+
+  private static final WPI_TalonFX leftShooterMotor = RobotMap.leftShooterMotor;
+  private static final WPI_TalonFX rightShooterMotor = RobotMap.rightShooterMotor;
+  private static final WPI_TalonFX hoodMotor = RobotMap.shooterHoodMotor;
+
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -28,6 +42,34 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+
+    leftFrontMotor.configFactoryDefault();
+    rightFrontMotor.configFactoryDefault();
+    leftBackMotor.configFactoryDefault();
+    rightBackMotor.configFactoryDefault();
+    leftShooterMotor.configFactoryDefault();
+    rightShooterMotor.configFactoryDefault();
+    hoodMotor.configFactoryDefault();
+
+    leftBackMotor.config_kF(0, DriveConstants.F, 10);
+    leftBackMotor.config_kP(0, DriveConstants.P, 10);
+    leftBackMotor.config_kI(0, DriveConstants.I, 10);
+    leftBackMotor.config_kD(0, DriveConstants.D, 10);
+
+    rightBackMotor.config_kF(0, DriveConstants.F, 10);
+    rightBackMotor.config_kP(0, DriveConstants.P, 10);
+    rightBackMotor.config_kI(0, DriveConstants.I, 10);
+    rightBackMotor.config_kD(0, DriveConstants.D, 10);
+
+    leftFrontMotor.config_kF(0, DriveConstants.F, 10);
+    leftFrontMotor.config_kP(0, DriveConstants.P, 10);
+    leftFrontMotor.config_kI(0, DriveConstants.I, 10);
+    leftFrontMotor.config_kD(0, DriveConstants.D, 10);
+
+    rightFrontMotor.config_kF(0, DriveConstants.F, 10);
+    rightFrontMotor.config_kP(0, DriveConstants.P, 10);
+    rightFrontMotor.config_kI(0, DriveConstants.I, 10);
+    rightFrontMotor.config_kD(0, DriveConstants.D, 10);
   }
 
   /**
