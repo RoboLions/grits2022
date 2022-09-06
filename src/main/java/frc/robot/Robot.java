@@ -9,6 +9,9 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.ShooterConstants;
+import frc.robot.Constants.ShooterHoodConstants;
 import frc.robot.subsystems.DriveSubsystem;
 
 /**
@@ -70,6 +73,21 @@ public class Robot extends TimedRobot {
     rightFrontMotor.config_kP(0, DriveConstants.P, 10);
     rightFrontMotor.config_kI(0, DriveConstants.I, 10);
     rightFrontMotor.config_kD(0, DriveConstants.D, 10);
+
+    hoodMotor.config_kF(0, ShooterHoodConstants.F, 10);
+    hoodMotor.config_kP(0, ShooterHoodConstants.P, 10);
+    hoodMotor.config_kI(0, ShooterHoodConstants.I, 10);
+    hoodMotor.config_kD(0, ShooterHoodConstants.D, 10);
+
+    leftShooterMotor.config_kF(0, ShooterConstants.F, 10);
+    leftShooterMotor.config_kP(0, ShooterConstants.P, 10);
+    leftShooterMotor.config_kI(0, ShooterConstants.I, 10);
+    leftShooterMotor.config_kD(0, ShooterConstants.D, 10);
+
+    rightShooterMotor.config_kF(0, ShooterConstants.F, 10);
+    rightShooterMotor.config_kP(0, ShooterConstants.P, 10);
+    rightShooterMotor.config_kI(0, ShooterConstants.I, 10);
+    rightShooterMotor.config_kD(0, ShooterConstants.D, 10);
   }
 
   /**

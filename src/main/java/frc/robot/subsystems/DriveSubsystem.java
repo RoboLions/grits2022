@@ -101,17 +101,6 @@ public class DriveSubsystem extends SubsystemBase {
     // Update the odometry in the periodic block
     m_odometry.update(
       driveIMU.getRotation2d(), Math.abs(leftDistanceTravelledInMeters()), Math.abs(rightDistanceTravelledInMeters()));
-
-      //System.out.println("Heading: " + driveIMU.getRotation2d());
-      //System.out.println("Wheel speed: " + getWheelSpeeds());
-      
-      /*var translation = m_odometry.getPoseMeters().getTranslation();
-      SmartDashboard.putNumber("X Value: ", translation.getX());
-      SmartDashboard.putNumber("Y Value: ", translation.getY());
-      SmartDashboard.putNumber("Left Distance Meters", leftDistanceTravelledInMeters());
-      SmartDashboard.putNumber("Right Distance Meters", rightDistanceTravelledInMeters());
-      System.out.println("Heading: " + driveIMU.getRotation2d());*/
-      //m_yEntry.setNumber(translation.getY());
   }
 
   public void driveWithRotation(double linearTravelSpeed, double rotateSpeed) {
@@ -215,22 +204,30 @@ public class DriveSubsystem extends SubsystemBase {
     left_speed_cmd = leftSpeed; // m/s
     right_speed_cmd = rightSpeed; // m/s
 
+    // ticks/meter * 1 second / 1000 ms * 100 = tick seconds / meter ms
+    double driveSpeedPer100MS = (DriveConstants.TICKS_PER_METER * (1.0/1000.0) * 100.0); //tick second/\
+
+    // passing in ticks/100 ms by multiplying (tick seconds / meter ms) * (meter/second) * 100
+    leftBackMotor.set(TalonFXControlMode.Velocity, driveSpeedPer100MS*left_speed_cmd); 
+    rightBackMotor.set(TalonFXControlMode.Velocity, driveSpeedPer100MS*right_speed_cmd); 
+
+    // actual speed command passed 
+    /*left_speed_cmd = leftSpeed; // m/s
+    right_speed_cmd = rightSpeed; // m/s
+
     // 1 meter/second * 0.1 second/100ms * 1 rev/(2pir meters) * gear ratio/1 rev * 2048 counts/rev
     int driveSpeedPer100MS = (int) ((0.1 * 10.71 * 2048) / (2 * Math.PI * 0.1524));
 
     leftBackMotor.set(TalonFXControlMode.Velocity, (int) (driveSpeedPer100MS*left_speed_cmd*5));
     rightBackMotor.set(TalonFXControlMode.Velocity, (int) (driveSpeedPer100MS*right_speed_cmd*5));
+    */
   }
 
-  // Trying to not use WPI differential drive and PID class
   public void autoDrive(double leftWheelSpeed, double rightWheelSpeed) {
 
     // actual speed command passed 
     left_speed_cmd = leftWheelSpeed; // m/s
     right_speed_cmd = rightWheelSpeed; // m/s
-
-    // 1 meter/second * 0.1 second/100ms * 1 rev/(2pir meters) * gear ratio/1 rev * 2048 counts/rev
-    //int driveSpeedPer100MS = (int) ((0.1 * 10.71 * 2048) / (2 * Math.PI * 0.1524));
 
     // ticks/meter * 1 second / 1000 ms * 100 = tick seconds / meter ms
     double driveSpeedPer100MS = (DriveConstants.TICKS_PER_METER * (1.0/1000.0) * 100.0); //tick second/\
@@ -256,13 +253,13 @@ public class DriveSubsystem extends SubsystemBase {
     return m_odometry.getPoseMeters();
   }
 
-  // Returns the current wheel speeds of the robot.
+  // Returns the current wheel speeds of the robot
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
     return new DifferentialDriveWheelSpeeds(Math.abs(getBackLeftEncoderVelocityMetersPerSecond()), 
       Math.abs(getBackRightEncoderVelocityMetersPerSecond()));
   }
 
-  // Resets the odometry to the specified pose.
+  // Resets the odometry to the specified pose
   public void resetOdometry(Pose2d pose) {
     resetEncoders();
     m_odometry.resetPosition(pose, driveIMU.getRotation2d());
@@ -323,9 +320,6 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public double distanceTravelledinMeters() {
-    // left distance is negative because the encoder value on the 
-    // left is negative when dev bot is pushed forward 2/15/20
-    // Code Tested on Dev Bot, Works on 2/15/20
     double distanceTravelled = (leftDistanceTravelledInMeters() + rightDistanceTravelledInMeters()) / 2;
     return distanceTravelled;
   }

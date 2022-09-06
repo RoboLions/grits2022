@@ -162,17 +162,36 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void setHoodRPM(double hoodRPM) {
-    // TODO: FIX INT TO DOUBLE
+
     //don't divide by 100 to keep it 100ms instead of 1 ms
-    int hoodSpeedPer100MS = (int) ((hoodRPM * 0.1 * MOTOR_ENCODER_COUNTS_PER_REV) / (60)); 
-    //int hoodSpeedPer100MS = 16000;
-    //hoodMotor.set(hoodSpeed);
+    //int hoodSpeedPer100MS = (int) ((hoodRPM * 0.1 * MOTOR_ENCODER_COUNTS_PER_REV) / (60)); 
+
+    // TODO: check the math
+    double hoodSpeedPer100MS = (hoodRPM * 0.1 * ShooterConstants.MOTOR_ENCODER_COUNTS_PER_REV) / (60); 
+
     hoodMotor.set(TalonFXControlMode.Velocity, hoodSpeedPer100MS);
   }
 
   public double getHoodRPM() {
     double RPMOfHood = getHoodVelocity() / 3.413;
     return RPMOfHood;
+  }
+
+  public void setShooterSpeed(double shooterSpeed) {
+    leftShooterMotor.set(shooterSpeed);
+    rightShooterMotor.set(shooterSpeed);
+  }
+
+  public void setShooterRPM(double shooterRPM) {
+    // TODO: check the math
+    double shooterSpeedPer100MS = (shooterRPM * 0.1 * ShooterConstants.MOTOR_ENCODER_COUNTS_PER_REV) / (60); 
+    leftShooterMotor.set(TalonFXControlMode.Velocity, shooterSpeedPer100MS);
+  }
+
+  public void stopShooter() {
+    leftShooterMotor.set(0);
+    rightShooterMotor.set(0);
+    hoodMotor.set(0);
   }
 
   @Override
