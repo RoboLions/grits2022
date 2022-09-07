@@ -329,6 +329,11 @@ public class DriveSubsystem extends SubsystemBase {
     driveIMU.setYaw(0, 10);
   }
 
+  public void stop() {
+    leftBackMotor.set(0);
+    leftFrontMotor.set(0);
+  }
+
   // Returns the turn rate of the robot
   /*public double getTurnRate() {
     return driveIMU.getRate();

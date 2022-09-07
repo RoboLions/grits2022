@@ -6,7 +6,11 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.Constants.OIConstants;
+import frc.robot.commands.JoystickDrive;
+import frc.robot.commands.Autonomous.TwoBall;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -18,13 +22,23 @@ import edu.wpi.first.wpilibj2.command.Command;
  */
 public class RobotContainer {
 
-  public final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
-  public final DriveSubsystem driveSubsystem = new DriveSubsystem();
+  public final static ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
+  public final static DriveSubsystem driveSubsystem = new DriveSubsystem();
+  public final static LimelightSubsystem limelightSubsystem = new LimelightSubsystem();
+
+  public static final XboxController driverController = new XboxController(OIConstants.DRIVER_CONTROLLER_PORT);
+  public static final XboxController manipulatorController = new XboxController(OIConstants.MANIPULATOR_CONTROLLER_PORT);
+
+  public static TwoBall defaultAutoPath = new TwoBall(driveSubsystem, shooterSubsystem);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
+
+    driveSubsystem.setDefaultCommand(
+      new JoystickDrive(driveSubsystem)
+    );
   }
 
   /**
@@ -42,6 +56,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return m_autoCommand;
+    return defaultAutoPath;
   }
 }

@@ -17,7 +17,7 @@ import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 public final class Constants {
     public static final class OIConstants {
         public static final int DRIVER_CONTROLLER_PORT = 0;
-        public static final int MANIPULALTOR_CONTROLLER_PORT = 1;
+        public static final int MANIPULATOR_CONTROLLER_PORT = 1;
     }
 
     public static final class DriveConstants {
@@ -58,5 +58,18 @@ public final class Constants {
         public static final double I = 0.001;
         public static final double D = 5;
         public static final double F = 0.035; // ~12k counts, 75% of max output
+    }
+
+    public static final class LimelightConstants {
+        //modes for limelight led light
+        public static final double FORCE_OFF = 1;
+        public static final double FORCE_BLINK = 2;
+        public static final double FORCE_ON = 3;
+    
+        //modes for limelight camera 
+        public static final double VISION_PROCESSOR = 0;
+        public static final double DRIVER_CAMERA = 1;
+        public static final double LLAIMING = 0.035;
+        public static final double MOTORGAIN = 0.75;
     }
 }

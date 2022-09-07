@@ -13,6 +13,7 @@ import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.ShooterHoodConstants;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.LimelightSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -26,6 +27,7 @@ public class Robot extends TimedRobot {
   private RobotContainer m_robotContainer;
 
   private DriveSubsystem driveSubsystem = m_robotContainer.driveSubsystem;
+  private LimelightSubsystem limelightSubsystem = m_robotContainer.limelightSubsystem;
   
   private static final WPI_TalonFX leftBackMotor = RobotMap.leftBackDriveMotor;
   private static final WPI_TalonFX rightBackMotor = RobotMap.rightBackDriveMotor;
@@ -45,6 +47,10 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+
+    driveSubsystem.resetEncoders();
+    driveSubsystem.ZeroYaw();
+    limelightSubsystem.setVisionProcessor();
 
     leftFrontMotor.configFactoryDefault();
     rightFrontMotor.configFactoryDefault();
