@@ -13,12 +13,12 @@ import frc.robot.subsystems.ShooterSubsystem;
 
 public class TwoBall extends SequentialCommandGroup {
 
-  public TwoBall(final DriveSubsystem driveSubsystem, ShooterSubsystem shooterSubsystem) {
+  public TwoBall(final DriveSubsystem driveSubsystem) {
     super(
 
       new ParallelDeadlineGroup(
-        new FollowTrajectory(driveSubsystem, Trajectories.twoBall.toFirstBall), 
-        new AutoShootSecondBall(shooterSubsystem)
+        new FollowTrajectory(driveSubsystem, Trajectories.twoBall.toSecondBall)
+        //new AutoShootSecondBall(shooterSubsystem)
         //new AutoMoveArmDown(armSubsystem),
         //new AutoIntake(intakeSubsystem)
       )
