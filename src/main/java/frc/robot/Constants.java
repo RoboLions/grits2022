@@ -52,7 +52,8 @@ public final class Constants {
         public static final double D = 5;
         public static final double F = 0.035; // ~12k counts, 75% of max output
 
-        public static final double heightOfGoalMeters = 2.44; //change if needed
+        public static final double HEIGHT_OF_GOAL_METERS = 2.44; // change if needed
+        public static final double g = -9.8; // Acceleration due to gravity m/s^2
     }
 
     public static final class ShooterHoodConstants {

@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.RobotMap;
+import frc.robot.Constants.ShooterConstants;
 import frc.robot.lib.RoboLionsShooterCalculate;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -18,14 +19,13 @@ public class ShootShooter extends CommandBase {
   private final static XboxController manipulatorController = RobotContainer.manipulatorController;
   private final static XboxController driverController = RobotContainer.driverController;
   private final ShooterSubsystem shooterSubsystem;
-  public static double y = 0; //For calculations
-  public static double yVelocity = 0; //For calculations
-  public static double xVelocity = 0; //For calculations
-  public static double g = -9.8; //Acceleration due to gravity m/s^2
-  public static double t = 0; //Time for calculations
+
+  public static double y;
+  public static double yVelocity = 0;
+  public static double xVelocity = 0;
+  public static double t = 0; // Time for calculations
   public static double initialVelocity = 0;
-  //private static final DigitalInput elevatorSensor1 = RobotMap.elevatorSensor1;
-  
+
   public ShootShooter(ShooterSubsystem shooter) {
     shooterSubsystem = shooter;
     addRequirements(shooterSubsystem);
@@ -34,25 +34,30 @@ public class ShootShooter extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    shooterSubsystem.stopShooter();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     
-      double x = LimelightSubsystem.getHorizontalDistance();
-      y = RoboLionsShooterCalculate.calculate(x);
-    yVelocity = Math.sqrt(-2*g*y);
-    t = (-yVelocity + Math.sqrt((Math.pow(yVelocity, 2)) - (4*(0.5*g*-1)))) / (2*(0.5*g)); //change the minus to plus if a negative value is returned
+    double x = LimelightSubsystem.getHorizontalDistance();
+    y = RoboLionsShooterCalculate.calculate(x);
+    yVelocity = Math.sqrt(-2 * ShooterConstants.g * y);
+    t = (-yVelocity + Math.sqrt((Math.pow(yVelocity, 2)) - (4*(0.5*ShooterConstants.g*-1)))) / (2*(0.5*ShooterConstants.g)); //change the minus to plus if a negative value is returned
     xVelocity = x/t;
-    initialVelocity = Math.sqrt((Math.pow(xVelocity, 2)) + Math.pow(yVelocity, 2));
+    initialVelocity = Math.sqrt((Math.pow(xVelocity, 2)) + Math.pow(yVelocity, 2)); // meters per second
     
-    
-    if (driverController.getAButtonPressed()) {
+    System.out.println(initialVelocity); // testing purposes
+
+    /*if (manipulatorController.getYButtonPressed()) {
+      shooterSubsystem.setShooterRPM(shooterRPM);
+      shooterSubsystem.setHoodRPM(hoodRPM);
+    }*/
+
+    /*if (driverController.getAButtonPressed()) {
       LimelightSubsystem.setVisionProcessor();
     } 
-    /*if (driverController.getYButtonPressed()) {
+    if (driverController.getYButtonPressed()) {
       LimelightSubsystem.setDriverCamera();
     }*/
 
