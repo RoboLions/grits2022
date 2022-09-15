@@ -25,6 +25,8 @@ public class ShootShooter extends CommandBase {
   public static double xVelocity = 0;
   public static double t = 0; // Time for calculations
   public static double initialVelocity = 0;
+  public static double RPMofFront = 0;
+  public static double RPMofHood = 0;
 
   public ShootShooter(ShooterSubsystem shooter) {
     shooterSubsystem = shooter;
@@ -46,7 +48,9 @@ public class ShootShooter extends CommandBase {
     t = (-yVelocity + Math.sqrt((Math.pow(yVelocity, 2)) - (4*(0.5*ShooterConstants.g*-1)))) / (2*(0.5*ShooterConstants.g)); //change the minus to plus if a negative value is returned
     xVelocity = x/t;
     initialVelocity = Math.sqrt((Math.pow(xVelocity, 2)) + Math.pow(yVelocity, 2)); // meters per second
-    
+    RPMofFront = (initialVelocity * 60) / (2 * Math.PI * .2); //RPM .2 is radius of the wheel, change later
+    RPMofHood = (initialVelocity * 60) / (2 * Math.PI * .2); //RPM .2 is radius of the wheel, change later
+
     System.out.println(initialVelocity); // testing purposes
 
     /*if (manipulatorController.getYButtonPressed()) {
