@@ -48,15 +48,17 @@ public class ShootShooter extends CommandBase {
     t = (-yVelocity + Math.sqrt((Math.pow(yVelocity, 2)) - (4*(0.5*ShooterConstants.g*-1)))) / (2*(0.5*ShooterConstants.g)); //change the minus to plus if a negative value is returned
     xVelocity = x/t;
     initialVelocity = Math.sqrt((Math.pow(xVelocity, 2)) + Math.pow(yVelocity, 2)); // meters per second
-    RPMofFront = (initialVelocity * 60) / (2 * Math.PI * .2); //RPM .2 is radius of the wheel, change later
-    RPMofHood = (initialVelocity * 60) / (2 * Math.PI * .2); //RPM .2 is radius of the wheel, change later
+    RPMofFront = (initialVelocity * 60) / (2 * Math.PI * .0508); //RPM .0508meters is radius of the wheel
+    RPMofHood = (initialVelocity * 60) / (2 * Math.PI * .0254); //RPM .0254meters is radius of the wheel
 
-    System.out.println(initialVelocity); // testing purposes
+    //System.out.println(initialVelocity); // testing purposes
 
-    /*if (manipulatorController.getYButtonPressed()) {
-      shooterSubsystem.setShooterRPM(shooterRPM);
-      shooterSubsystem.setHoodRPM(hoodRPM);
-    }*/
+    if (manipulatorController.getYButton()) {
+      shooterSubsystem.setShooterRPM(1000);
+      //shooterSubsystem.setHoodRPM(100);
+    } else {
+      shooterSubsystem.stopShooter();
+    }
 
     /*if (driverController.getAButtonPressed()) {
       LimelightSubsystem.setVisionProcessor();

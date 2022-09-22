@@ -166,8 +166,7 @@ public class ShooterSubsystem extends SubsystemBase {
     //don't divide by 100 to keep it 100ms instead of 1 ms
     //int hoodSpeedPer100MS = (int) ((hoodRPM * 0.1 * MOTOR_ENCODER_COUNTS_PER_REV) / (60)); 
 
-    // TODO: check the math
-    double hoodSpeedPer100MS = (hoodRPM * 0.1 * ShooterConstants.MOTOR_ENCODER_COUNTS_PER_REV) / (60); 
+    double hoodSpeedPer100MS = (hoodRPM * 0.1 * ShooterConstants.MOTOR_ENCODER_COUNTS_PER_REV) / (60.0); 
 
     hoodMotor.set(TalonFXControlMode.Velocity, hoodSpeedPer100MS);
   }
@@ -182,10 +181,49 @@ public class ShooterSubsystem extends SubsystemBase {
     rightShooterMotor.set(shooterSpeed);
   }
 
+  public double getAverageShooterRPM() {
+    double averageShooterRPM = ((-getRPMOfLeftShooterWheels() + getRPMOfRightShooterWheels()) / 2.0);
+    return averageShooterRPM;
+  }
+
   public void setShooterRPM(double shooterRPM) {
-    // TODO: check the math
-    double shooterSpeedPer100MS = (shooterRPM * 0.1 * ShooterConstants.MOTOR_ENCODER_COUNTS_PER_REV) / (60); 
-    leftShooterMotor.set(TalonFXControlMode.Velocity, shooterSpeedPer100MS);
+
+    double error = shooterRPM - getAverageShooterRPM();
+    System.out.println(error);
+
+    if (Math.abs(error) < 25) {
+      System.out.println("PID ON");
+      leftShooterMotor.config_kF(0, ShooterConstants.F, 10);
+      leftShooterMotor.config_kP(0, ShooterConstants.P, 10);
+      leftShooterMotor.config_kI(0, ShooterConstants.I, 10);
+      leftShooterMotor.config_kD(0, ShooterConstants.D, 10);
+
+      rightShooterMotor.config_kF(0, ShooterConstants.F, 10);
+      rightShooterMotor.config_kP(0, ShooterConstants.P, 10);
+      rightShooterMotor.config_kI(0, ShooterConstants.I, 10);
+      rightShooterMotor.config_kD(0, ShooterConstants.D, 10);
+
+      double shooterSpeedPer100MS = (shooterRPM * 0.1 * ShooterConstants.MOTOR_ENCODER_COUNTS_PER_REV) / (60.0); 
+
+      leftShooterMotor.set(TalonFXControlMode.Velocity, -shooterSpeedPer100MS);
+      rightShooterMotor.set(TalonFXControlMode.Velocity, shooterSpeedPer100MS);
+    } else {
+      // turn off pid
+      leftShooterMotor.config_kF(0, ShooterConstants.F, 10);
+      leftShooterMotor.config_kP(0, 0, 10);
+      leftShooterMotor.config_kI(0, 0, 10);
+      leftShooterMotor.config_kD(0, 0, 10);
+
+      rightShooterMotor.config_kF(0, ShooterConstants.F, 10);
+      rightShooterMotor.config_kP(0, 0, 10);
+      rightShooterMotor.config_kI(0, 0, 10);
+      rightShooterMotor.config_kD(0, 0, 10);
+
+      double shooterSpeedPer100MS = (shooterRPM * 0.1 * ShooterConstants.MOTOR_ENCODER_COUNTS_PER_REV) / (60.0); 
+
+      leftShooterMotor.set(TalonFXControlMode.Velocity, -shooterSpeedPer100MS);
+      rightShooterMotor.set(TalonFXControlMode.Velocity, shooterSpeedPer100MS);
+    }
   }
 
   public void stopShooter() {

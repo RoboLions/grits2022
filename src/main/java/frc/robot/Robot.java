@@ -7,6 +7,7 @@ package frc.robot;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Constants.DriveConstants;
@@ -14,6 +15,7 @@ import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.ShooterHoodConstants;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -28,6 +30,7 @@ public class Robot extends TimedRobot {
 
   private DriveSubsystem driveSubsystem = m_robotContainer.driveSubsystem;
   private LimelightSubsystem limelightSubsystem = m_robotContainer.limelightSubsystem;
+  private ShooterSubsystem shooterSubsystem = m_robotContainer.shooterSubsystem;
   
   private static final WPI_TalonFX leftBackMotor = RobotMap.leftBackDriveMotor;
   private static final WPI_TalonFX rightBackMotor = RobotMap.rightBackDriveMotor;
@@ -84,16 +87,6 @@ public class Robot extends TimedRobot {
     hoodMotor.config_kP(0, ShooterHoodConstants.P, 10);
     hoodMotor.config_kI(0, ShooterHoodConstants.I, 10);
     hoodMotor.config_kD(0, ShooterHoodConstants.D, 10);
-
-    leftShooterMotor.config_kF(0, ShooterConstants.F, 10);
-    leftShooterMotor.config_kP(0, ShooterConstants.P, 10);
-    leftShooterMotor.config_kI(0, ShooterConstants.I, 10);
-    leftShooterMotor.config_kD(0, ShooterConstants.D, 10);
-
-    rightShooterMotor.config_kF(0, ShooterConstants.F, 10);
-    rightShooterMotor.config_kP(0, ShooterConstants.P, 10);
-    rightShooterMotor.config_kI(0, ShooterConstants.I, 10);
-    rightShooterMotor.config_kD(0, ShooterConstants.D, 10);
   }
 
   /**
@@ -110,6 +103,10 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+
+    SmartDashboard.putNumber("Hood RPM", shooterSubsystem.getHoodRPM());
+    SmartDashboard.putNumber("Left Shooter RPM", shooterSubsystem.getRPMOfLeftShooterWheels());
+    SmartDashboard.putNumber("Right Shooter RPM", shooterSubsystem.getRPMOfRightShooterWheels());
   }
 
   /** This function is called once each time the robot enters Disabled mode. */

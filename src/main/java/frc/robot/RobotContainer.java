@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.JoystickDrive;
+import frc.robot.commands.ShootShooter;
 import frc.robot.commands.Autonomous.TwoBall;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
@@ -38,6 +39,10 @@ public class RobotContainer {
 
     driveSubsystem.setDefaultCommand(
       new JoystickDrive(driveSubsystem)
+    );
+
+    shooterSubsystem.setDefaultCommand(
+      new ShootShooter(shooterSubsystem)
     );
   }
 
