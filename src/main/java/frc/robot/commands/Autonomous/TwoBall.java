@@ -17,11 +17,16 @@ public class TwoBall extends SequentialCommandGroup {
     super(
 
       new ParallelDeadlineGroup(
-        new FollowTrajectory(driveSubsystem, Trajectories.twoBall.toSecondBall)
+        new FollowTrajectory(driveSubsystem, Trajectories.threeBall.toThirdBallPartOne)
+        //new FollowTrajectory(driveSubsystem, Trajectories.twoBall.toSecondBall)
         //new AutoShootSecondBall(shooterSubsystem)
         //new AutoMoveArmDown(armSubsystem),
         //new AutoIntake(intakeSubsystem)
       )
+
+      /*new ParallelDeadlineGroup(
+        new FollowTrajectory(driveSubsystem, Trajectories.threeBall.toThirdBallPartTwo)
+      )*/
 
       //new AutoShoot(shooterSubsystem).withTimeout(1)
     );

@@ -4,18 +4,63 @@
 
 package frc.robot.commands.Autonomous;
 
+import java.io.IOException;
+import java.nio.file.Path;
+
 import com.pathplanner.lib.PathPlanner;
 
 import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrajectoryUtil;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Filesystem;
 
 public class Trajectories {
+    
+    public static Trajectory getToSecondBall() {
+        String trajectoryJSON = "output/TwoBall.wpilib.json";
+        Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
+        Trajectory toSecondBall = new Trajectory();
+        try {
+            toSecondBall = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+        } catch (IOException ex) {
+            DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
+        }
+        return toSecondBall;
+    }
+
+    public static Trajectory getToThirdBallPartOne() {
+        String trajectoryJSON = "output/ThreeBallPartOne.wpilib.json";
+        Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
+        Trajectory toThirdBallPartOne = new Trajectory();
+        try {
+            toThirdBallPartOne = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+        } catch (IOException ex) {
+            DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
+        }
+        return toThirdBallPartOne;
+    }
+
+    public static Trajectory getToThirdBallPartTwo() {
+        String trajectoryJSON = "output/ThreeBallPartTwo.wpilib.json";
+        Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
+        Trajectory toThirdBallPartTwo = new Trajectory();
+        try {
+            toThirdBallPartTwo = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+        } catch (IOException ex) {
+            DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
+        }
+        return toThirdBallPartTwo;
+    }
 
     public static class twoBall {
-        public static final Trajectory toSecondBall = PathPlanner.loadPath("TwoBall", 0.5, 0.5);
+        // public static final Trajectory toSecondBall = PathPlanner.loadPath("TwoBall", 0.5, 0.5);
+        public static final Trajectory toSecondBall = getToSecondBall();
     }
 
     public static class threeBall {
-        public static final Trajectory toThirdBall = PathPlanner.loadPath("ThreeBall", 0.5, 0.5);
+        //public static final Trajectory toThirdBall = PathPlanner.loadPath("ThreeBall", 0.5, 0.5);
+        public static final Trajectory toThirdBallPartOne = getToThirdBallPartOne();
+        public static final Trajectory toThirdBallPartTwo = getToThirdBallPartTwo();
     }
 
     public static class fourBall {
