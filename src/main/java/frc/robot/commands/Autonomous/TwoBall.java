@@ -4,6 +4,7 @@
 
 package frc.robot.commands.Autonomous;
 
+import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.AutoShootSecondBall;
@@ -17,7 +18,8 @@ public class TwoBall extends SequentialCommandGroup {
     super(
 
       new ParallelDeadlineGroup(
-        new FollowTrajectory(driveSubsystem, Trajectories.threeBall.toThirdBallPartOne)
+        new FollowTrajectory(driveSubsystem, Trajectories.testPath.toTest)
+        //new FollowTrajectory(driveSubsystem, Trajectories.threeBall.toThirdBallPartOne)
         //new FollowTrajectory(driveSubsystem, Trajectories.twoBall.toSecondBall)
         //new AutoShootSecondBall(shooterSubsystem)
         //new AutoMoveArmDown(armSubsystem),

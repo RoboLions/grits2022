@@ -52,6 +52,18 @@ public class Trajectories {
         return toThirdBallPartTwo;
     }
 
+    public static Trajectory testPath() {
+        String trajectoryJSON = "output/Test.wpilib.json";
+        Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
+        Trajectory toTest = new Trajectory();
+        try {
+            toTest = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+        } catch (IOException ex) {
+            DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
+        }
+        return toTest;
+    }
+
     public static class twoBall {
         // public static final Trajectory toSecondBall = PathPlanner.loadPath("TwoBall", 0.5, 0.5);
         public static final Trajectory toSecondBall = getToSecondBall();
@@ -65,5 +77,9 @@ public class Trajectories {
 
     public static class fourBall {
         public static final Trajectory toFourthBall = PathPlanner.loadPath("FourBall", 0.5, 0.5);
+    }
+
+    public static class testPath {
+        public static final Trajectory toTest = testPath();
     }
 }

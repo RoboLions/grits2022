@@ -36,7 +36,7 @@ public class FollowTrajectory extends CommandBase {
         m_disabledRamsete, 
         DriveConstants.kDriveKinematics,
         (leftWheelSpeed, rightWheelSpeed) -> {
-            driveSubsystem.autoDrive(leftWheelSpeed, rightWheelSpeed);
+            driveSubsystem.autoDrive(rightWheelSpeed, leftWheelSpeed); // switched left and right
             System.out.println("left/right speed, " + leftWheelSpeed + ", " + driveSubsystem.getWheelSpeeds().leftMetersPerSecond + 
             ", "+ rightWheelSpeed + ", " + driveSubsystem.getWheelSpeeds().rightMetersPerSecond);
         },
