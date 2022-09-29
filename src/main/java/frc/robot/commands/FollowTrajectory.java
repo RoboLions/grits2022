@@ -35,8 +35,8 @@ public class FollowTrajectory extends CommandBase {
         driveSubsystem::getPose,
         m_disabledRamsete, 
         DriveConstants.kDriveKinematics,
-        (leftWheelSpeed, rightWheelSpeed) -> {
-            driveSubsystem.autoDrive(rightWheelSpeed, leftWheelSpeed); // switched left and right
+        (rightWheelSpeed, leftWheelSpeed) -> { // switched right and left to make bot turn correct way
+            driveSubsystem.autoDrive(leftWheelSpeed, rightWheelSpeed);
             System.out.println("left/right speed, " + leftWheelSpeed + ", " + driveSubsystem.getWheelSpeeds().leftMetersPerSecond + 
             ", "+ rightWheelSpeed + ", " + driveSubsystem.getWheelSpeeds().rightMetersPerSecond);
         },
