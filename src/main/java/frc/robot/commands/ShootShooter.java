@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
@@ -20,6 +21,8 @@ public class ShootShooter extends CommandBase {
   private final static XboxController driverController = RobotContainer.driverController;
   private final ShooterSubsystem shooterSubsystem;
 
+  private static Timer shooterTimer = new Timer();
+
   public static double y;
   public static double yVelocity = 0;
   public static double xVelocity = 0;
@@ -27,6 +30,7 @@ public class ShootShooter extends CommandBase {
   public static double initialVelocity = 0;
   public static double RPMofFront = 0;
   public static double RPMofHood = 0;
+  public static double counter = 0;
 
   public ShootShooter(ShooterSubsystem shooter) {
     shooterSubsystem = shooter;
@@ -53,9 +57,20 @@ public class ShootShooter extends CommandBase {
 
     //System.out.println(initialVelocity); // testing purposes
 
-    if (manipulatorController.getYButton()) {
-      shooterSubsystem.setShooterRPM(1000);
-      //shooterSubsystem.setHoodRPM(100);
+    System.out.println("shooter error: " + shooterSubsystem.getShooterError());
+    System.out.println("hood error: " + shooterSubsystem.getHoodError());
+
+    if (manipulatorController.getXButton()) { // y button 
+      shooterSubsystem.setShooterMPS(25);
+      shooterSubsystem.setHoodMPS(10);
+
+      if (Math.abs(shooterSubsystem.getShooterError()) < 0.5 && 
+          Math.abs(shooterSubsystem.getHoodError()) < 1.25) {
+        counter++;
+      } else {
+        counter = 0;
+        shooterTimer.start(); // set time to 0 when error > 0.5 for both hood and shooter
+      }
     } else {
       shooterSubsystem.stopShooter();
     }
@@ -90,13 +105,18 @@ public class ShootShooter extends CommandBase {
       shooterSubsystem.lastShootVelocity = 0;
     }
 
-    if (manipulatorController.getXButton()) {
+    */
+
+    // elevator only goes up when the error is small enough for x number of seconds
+    if (manipulatorController.getXButton() && counter > 10) {
       shooterSubsystem.moveBeltUp();
+      System.out.println("TIME WHEN SHOT: " + shooterTimer.get());
     } else if (manipulatorController.getAButton()) {
       shooterSubsystem.moveBeltDown();
     } else {
       shooterSubsystem.stopBelt();
-    }
+    } 
+    
 
     /*if (manipulatorController.getXButton()) {
       if (Math.abs(shooterSubsystem.getLeftEncoderVelocityMetersPerSecond()) < 0.25) {

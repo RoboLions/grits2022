@@ -87,6 +87,21 @@ public class Robot extends TimedRobot {
     hoodMotor.config_kP(0, ShooterHoodConstants.P, 10);
     hoodMotor.config_kI(0, ShooterHoodConstants.I, 10);
     hoodMotor.config_kD(0, ShooterHoodConstants.D, 10);
+
+    leftShooterMotor.config_kF(0, ShooterConstants.F, 10);
+    leftShooterMotor.config_kP(0, ShooterConstants.P, 10);
+    leftShooterMotor.config_kI(0, ShooterConstants.I, 10);
+    leftShooterMotor.config_kD(0, ShooterConstants.D, 10);
+
+    rightShooterMotor.config_kF(0, ShooterConstants.F, 10);
+    rightShooterMotor.config_kP(0, ShooterConstants.P, 10);
+    rightShooterMotor.config_kI(0, ShooterConstants.I, 10);
+    rightShooterMotor.config_kD(0, ShooterConstants.D, 10);
+
+    hoodMotor.config_kF(0, ShooterHoodConstants.F, 10);
+    hoodMotor.config_kP(0, ShooterHoodConstants.P, 10);
+    hoodMotor.config_kI(0, ShooterHoodConstants.I, 10);
+    hoodMotor.config_kD(0, ShooterHoodConstants.D, 10);
   }
 
   /**
@@ -104,9 +119,9 @@ public class Robot extends TimedRobot {
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
 
-    SmartDashboard.putNumber("Hood RPM", shooterSubsystem.getHoodRPM());
-    SmartDashboard.putNumber("Left Shooter RPM", shooterSubsystem.getRPMOfLeftShooterWheels());
-    SmartDashboard.putNumber("Right Shooter RPM", shooterSubsystem.getRPMOfRightShooterWheels());
+    SmartDashboard.putNumber("Hood MPS", shooterSubsystem.getHoodVelocityMetersPerSecond());
+    SmartDashboard.putNumber("Left Shooter MPS", shooterSubsystem.getLeftEncoderVelocityMetersPerSecond());
+    SmartDashboard.putNumber("Right Shooter MPS", shooterSubsystem.getRightEncoderVelocityMetersPerSecond());
   }
 
   /** This function is called once each time the robot enters Disabled mode. */

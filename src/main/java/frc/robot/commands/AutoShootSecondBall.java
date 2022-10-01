@@ -24,8 +24,11 @@ public class AutoShootSecondBall extends CommandBase {
   @Override
   public void execute() {
     // TODO: test values
-    shooterSubsystem.setHoodRPM(100);
-    shooterSubsystem.setShooterRPM(100);
+    shooterSubsystem.setHoodMPS(100);
+    shooterSubsystem.setShooterMPS(100);
+
+    // shooterSubsystem.setHoodRPM(100);
+    // shooterSubsystem.setShooterRPM(100);
   }
 
   // Called once the command ends or is interrupted.

@@ -2,6 +2,7 @@ package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import com.ctre.phoenix.sensors.Pigeon2;
 import com.ctre.phoenix.sensors.WPI_Pigeon2;
 
 import edu.wpi.first.wpilibj.Servo;
@@ -13,6 +14,10 @@ public class RobotMap {
     public static final int RIGHT_FRONT_DRIVE_PORT = 4;
     public static final int CHASIS_IMU_PORT = 5;
 
+    public static final int INTAKE_ROLLER_PORT = 6;
+    public static final int INTAKE_ARM_PORT = 7;
+    public static final int INTAKE_ARM_IMU_PORT = 8;
+
     public static final int LEFT_SHOOTER_MOTOR_PORT = 9;
     public static final int RIGHT_SHOOTER_MOTOR_PORT = 10;
     public static final int BACK_ELEVATOR_PORT = 11;
@@ -23,6 +28,10 @@ public class RobotMap {
     public static final int LEFT_CLIMB_PORT = 14;
     public static final int HIGH_RIGHT_CLIMB_PORT = 15; 
     public static final int HIGH_LEFT_CLIMB_PORT = 16;
+    
+    public static WPI_VictorSPX intakeRollerMotor = new WPI_VictorSPX(INTAKE_ROLLER_PORT);
+    public static WPI_VictorSPX intakeArmMotor = new WPI_VictorSPX(INTAKE_ARM_PORT);
+    public static Pigeon2 intakeIMU = new Pigeon2(INTAKE_ARM_IMU_PORT);
 
     public static WPI_TalonFX leftBackDriveMotor = new WPI_TalonFX(LEFT_BACK_DRIVE_PORT);
     public static WPI_TalonFX rightBackDriveMotor = new WPI_TalonFX(RIGHT_BACK_DRIVE_PORT);

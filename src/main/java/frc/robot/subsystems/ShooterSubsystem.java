@@ -13,6 +13,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 import frc.robot.Constants.ShooterConstants;
+import frc.robot.Constants.ShooterHoodConstants;
 
 public class ShooterSubsystem extends SubsystemBase {
   
@@ -26,6 +27,9 @@ public class ShooterSubsystem extends SubsystemBase {
   public static final double LEFT_MOVE_BELT_DOWN_POWER = -0.3;
   public static final double RIGHT_MOVE_BELT_UP_POWER = -0.5;
   public static final double RIGHT_MOVE_BELT_DOWN_POWER = 0.3;
+
+  public double shooterError = 0;
+  public double hoodError = 0;
 
   public ShooterSubsystem() {
     leftShooterMotor.setNeutralMode(NeutralMode.Coast);
@@ -78,25 +82,39 @@ public class ShooterSubsystem extends SubsystemBase {
   
   public double getLeftEncoderVelocityMetersPerSecond() {
     // getQuadVelocity is in 100 ms so we have to divide it by 10 to get seconds
-    double leftVelocityMPS = (leftShooterMotor.getSelectedSensorVelocity() * 10); // /10
+    double leftVelocityTPS = (leftShooterMotor.getSelectedSensorVelocity() * 10); // /10
     // since getQuadVelocity is in encoder ticks, we have to convert it to meters
-    leftVelocityMPS = leftVelocityMPS * ShooterConstants.METERS_PER_TICKS;
-    return (leftVelocityMPS);
+    // Need to have a negative for left velocity since the motors are reversed on
+    // the opposite side
+    return (leftVelocityTPS * ShooterConstants.METERS_PER_TICKS * -1);
   }
 
   public double getRightEncoderVelocityMetersPerSecond() {
     // getQuadVelocity is in 100 ms so we have to divide it by 10 to get seconds
-    double rightVelocityMPS = (rightShooterMotor.getSelectedSensorVelocity() * 10); // /10
+    double rightVelocityTPS = (rightShooterMotor.getSelectedSensorVelocity() * 10); // /10
     // since getQuadVelocity is in encoder ticks, we have to convert it to meters
-    // Need to have a negative for right velocity since the motors are reversed on
-    // the opposite side
-    rightVelocityMPS = rightVelocityMPS * ShooterConstants.METERS_PER_TICKS;
-    return (rightVelocityMPS);
+    return (rightVelocityTPS * ShooterConstants.METERS_PER_TICKS);
   }
 
   public double getHoodVelocity() {
     return (hoodMotor.getSelectedSensorVelocity());
   }
+
+  
+  public double getHoodError() {
+    return hoodError;
+  }
+
+  public double getHoodVelocityMetersPerSecond() {
+    // getQuadVelocity is in 100 ms so we have to divide it by 10 to get seconds
+    double hoodVelocityMPS = (hoodMotor.getSelectedSensorVelocity() * 10); // /10
+    // since getQuadVelocity is in encoder ticks, we have to convert it to meters
+    // Need to have a negative for right velocity since the motors are reversed on
+    // the opposite side
+    hoodVelocityMPS = hoodVelocityMPS * ShooterConstants.METERS_PER_TICKS;
+    return (hoodVelocityMPS);
+  }
+
 
   public double getShooterEncoderVelocity() {
     double shooterEncoderVelocity = ((getLeftEncoderVelocityMetersPerSecond() * -1) + getRightEncoderVelocityMetersPerSecond())/2;
@@ -114,23 +132,23 @@ public class ShooterSubsystem extends SubsystemBase {
     return velocity100MS;
   }
 
-  public double getRPMOfLeftFalcon() {
+  public double getRPMOfLeftShooterFalcon() {
     double RPMOfLFalcon = getLeftEncoderVelocity() / 3.413;
     return RPMOfLFalcon;
   }
 
-  public double getRPMOfRightFalcon() {
+  public double getRPMOfRightShooterFalcon() {
     double RPMOfRFalcon = getRightEncoderVelocity() / 3.413;
     return RPMOfRFalcon;
   }
 
   public double getRPMOfLeftShooterWheels() {
-    double RPMOfLShooterWheels = getRPMOfLeftFalcon() * 1.33;
+    double RPMOfLShooterWheels = getRPMOfLeftShooterFalcon(); //* 1.33;
     return RPMOfLShooterWheels;
   }
 
   public double getRPMOfRightShooterWheels() {
-    double RPMOfRShooterWheels = getRPMOfRightFalcon() * 1.33;
+    double RPMOfRShooterWheels = getRPMOfRightShooterFalcon(); //* 1.33;
     return RPMOfRShooterWheels;
   }
 
@@ -161,69 +179,32 @@ public class ShooterSubsystem extends SubsystemBase {
     hoodMotor.set(hoodSpeed);
   }
 
-  public void setHoodRPM(double hoodRPM) {
-
-    //don't divide by 100 to keep it 100ms instead of 1 ms
-    //int hoodSpeedPer100MS = (int) ((hoodRPM * 0.1 * MOTOR_ENCODER_COUNTS_PER_REV) / (60)); 
-
-    double hoodSpeedPer100MS = (hoodRPM * 0.1 * ShooterConstants.MOTOR_ENCODER_COUNTS_PER_REV) / (60.0); 
-
-    hoodMotor.set(TalonFXControlMode.Velocity, hoodSpeedPer100MS);
+  public void setHoodMPS(double hoodMPS) {
+    hoodError = hoodMPS - getHoodVelocityMetersPerSecond();
+    double wheelSpeedPer100MS = (ShooterHoodConstants.TICKS_PER_METER * (1.0/1000.0) * 100.0); //tick second/\
+    hoodMotor.set(TalonFXControlMode.Velocity, hoodMPS*wheelSpeedPer100MS);
   }
 
-  public double getHoodRPM() {
-    double RPMOfHood = getHoodVelocity() / 3.413;
-    return RPMOfHood;
-  }
-
-  public void setShooterSpeed(double shooterSpeed) {
-    leftShooterMotor.set(shooterSpeed);
-    rightShooterMotor.set(shooterSpeed);
-  }
+  // public void setShooterSpeed(double shooterSpeed) {
+  //   leftShooterMotor.set(shooterSpeed);
+  //   rightShooterMotor.set(shooterSpeed);
+  // }
 
   public double getAverageShooterRPM() {
     double averageShooterRPM = ((-getRPMOfLeftShooterWheels() + getRPMOfRightShooterWheels()) / 2.0);
     return averageShooterRPM;
   }
 
-  public void setShooterRPM(double shooterRPM) {
+  public double getShooterError() {
+    return shooterError;
+  }
 
-    double error = shooterRPM - getAverageShooterRPM();
-    System.out.println(error);
+  public void setShooterMPS(double shooterMPS) {
+    shooterError = shooterMPS - getAverageEncoderVelocityMPS();
+    double wheelSpeedPer100MS = (ShooterConstants.TICKS_PER_METER * (1.0/1000.0) * 100.0); //tick second/\
 
-    if (Math.abs(error) < 25) {
-      System.out.println("PID ON");
-      leftShooterMotor.config_kF(0, ShooterConstants.F, 10);
-      leftShooterMotor.config_kP(0, ShooterConstants.P, 10);
-      leftShooterMotor.config_kI(0, ShooterConstants.I, 10);
-      leftShooterMotor.config_kD(0, ShooterConstants.D, 10);
-
-      rightShooterMotor.config_kF(0, ShooterConstants.F, 10);
-      rightShooterMotor.config_kP(0, ShooterConstants.P, 10);
-      rightShooterMotor.config_kI(0, ShooterConstants.I, 10);
-      rightShooterMotor.config_kD(0, ShooterConstants.D, 10);
-
-      double shooterSpeedPer100MS = (shooterRPM * 0.1 * ShooterConstants.MOTOR_ENCODER_COUNTS_PER_REV) / (60.0); 
-
-      leftShooterMotor.set(TalonFXControlMode.Velocity, -shooterSpeedPer100MS);
-      rightShooterMotor.set(TalonFXControlMode.Velocity, shooterSpeedPer100MS);
-    } else {
-      // turn off pid
-      leftShooterMotor.config_kF(0, ShooterConstants.F, 10);
-      leftShooterMotor.config_kP(0, 0, 10);
-      leftShooterMotor.config_kI(0, 0, 10);
-      leftShooterMotor.config_kD(0, 0, 10);
-
-      rightShooterMotor.config_kF(0, ShooterConstants.F, 10);
-      rightShooterMotor.config_kP(0, 0, 10);
-      rightShooterMotor.config_kI(0, 0, 10);
-      rightShooterMotor.config_kD(0, 0, 10);
-
-      double shooterSpeedPer100MS = (shooterRPM * 0.1 * ShooterConstants.MOTOR_ENCODER_COUNTS_PER_REV) / (60.0); 
-
-      leftShooterMotor.set(TalonFXControlMode.Velocity, -shooterSpeedPer100MS);
-      rightShooterMotor.set(TalonFXControlMode.Velocity, shooterSpeedPer100MS);
-    }
+    leftShooterMotor.set(TalonFXControlMode.Velocity, shooterMPS*wheelSpeedPer100MS*-1); // this side negative
+    rightShooterMotor.set(TalonFXControlMode.Velocity, shooterMPS*wheelSpeedPer100MS);
   }
 
   public void stopShooter() {
