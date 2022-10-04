@@ -60,12 +60,13 @@ public class ShootShooter extends CommandBase {
     System.out.println("shooter error: " + shooterSubsystem.getShooterError());
     System.out.println("hood error: " + shooterSubsystem.getHoodError());
 
-    if (manipulatorController.getXButton()) { // y button 
-      shooterSubsystem.setShooterMPS(25);
-      shooterSubsystem.setHoodMPS(10);
+    if (manipulatorController.getXButton()) { // was initially y button 
+      shooterSubsystem.setShooterMPS(27.9);
+      shooterSubsystem.setHoodMPS(25.9);
 
-      if (Math.abs(shooterSubsystem.getShooterError()) < 0.5 && 
-          Math.abs(shooterSubsystem.getHoodError()) < 1.25) {
+      // TODO: figure out why elevator going up caues shooter MPS oscillation w/ Chris
+      if (Math.abs(shooterSubsystem.getShooterError()) < 1.5 && 
+          Math.abs(shooterSubsystem.getHoodError()) < 2) { 
         counter++;
       } else {
         counter = 0;

@@ -113,18 +113,18 @@ public class LimelightSubsystem extends SubsystemBase {
   public static double getHorizontalDistance() {
     double targetOffsetAngle_Vertical = getLimelightY();
     double limelightMountAngleDegrees = 30;
-    double limelightHeight = 3.625; // feet
-    double goalHeight = 8.6666; // feet
+    double limelightHeight = 1.0922; // meters
+    double goalHeight = 2.6416; // meters
     double angleToGoal = limelightMountAngleDegrees + targetOffsetAngle_Vertical;
-    double angleToGoalRadians = angleToGoal * (3.14159 / 180.0);
+    double angleToGoalRadians = angleToGoal * (Math.PI / 180.0);
     double distance = (goalHeight - limelightHeight)/Math.tan(angleToGoalRadians);
-    return distance;
+    return distance; // meters
   }
   /*************************************************************************
-  * Boolean for if we are within 7 to 14 feet of the hub
+  * Boolean for if we are within 2.1336 to 4.4196 meters of the hub
   *************************************************************************/
   public static boolean isWithinDistance() {
-    return (getHorizontalDistance() <= 14.5 && getHorizontalDistance() >= 8);
+    return (getHorizontalDistance() <= 4.4196 && getHorizontalDistance() >= 2.1336);
   }
 
   @Override

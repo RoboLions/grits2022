@@ -122,6 +122,8 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Hood MPS", shooterSubsystem.getHoodVelocityMetersPerSecond());
     SmartDashboard.putNumber("Left Shooter MPS", shooterSubsystem.getLeftEncoderVelocityMetersPerSecond());
     SmartDashboard.putNumber("Right Shooter MPS", shooterSubsystem.getRightEncoderVelocityMetersPerSecond());
+
+    SmartDashboard.putNumber("Distance", LimelightSubsystem.getHorizontalDistance());
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
