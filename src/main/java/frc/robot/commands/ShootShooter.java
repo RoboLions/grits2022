@@ -31,6 +31,8 @@ public class ShootShooter extends CommandBase {
   public static double RPMofFront = 0;
   public static double RPMofHood = 0;
   public static double counter = 0;
+  double shooterSpeed = 0;
+  double hoodSpeed = 0;
 
   public ShootShooter(ShooterSubsystem shooter) {
     shooterSubsystem = shooter;
@@ -54,6 +56,8 @@ public class ShootShooter extends CommandBase {
     initialVelocity = Math.sqrt((Math.pow(xVelocity, 2)) + Math.pow(yVelocity, 2)); // meters per second
     RPMofFront = (initialVelocity * 60) / (2 * Math.PI * .0508); //RPM .0508meters is radius of the wheel
     RPMofHood = (initialVelocity * 60) / (2 * Math.PI * .0254); //RPM .0254meters is radius of the wheel
+    shooterSpeed = (0.471 * (Math.pow(x, 2))) + (-0.132 * x) + 19.4;
+    hoodSpeed = (1.55 * (Math.pow(x, 2))) + (-4.65 * x) + 16.3;
 
     //System.out.println(initialVelocity); // testing purposes
 
@@ -61,12 +65,15 @@ public class ShootShooter extends CommandBase {
     System.out.println("hood error: " + shooterSubsystem.getHoodError());
 
     if (manipulatorController.getXButton()) { // was initially y button 
-      shooterSubsystem.setShooterMPS(27.9);
-      shooterSubsystem.setHoodMPS(25.9);
+      // shooterSubsystem.setShooterMPS(31.5);
+      shooterSubsystem.setShooterMPS(shooterSpeed);
+      // shooterSubsystem.setHoodMPS(68);
+      shooterSubsystem.setHoodMPS(hoodSpeed);
 
       // TODO: figure out why elevator going up caues shooter MPS oscillation w/ Chris
-      if (Math.abs(shooterSubsystem.getShooterError()) < 1.5 && 
-          Math.abs(shooterSubsystem.getHoodError()) < 2) { 
+      // we just increased the error for now
+      if (Math.abs(shooterSubsystem.getShooterError()) < 4.5 && // 1.5
+          Math.abs(shooterSubsystem.getHoodError()) < 5) { // 2
         counter++;
       } else {
         counter = 0;
@@ -114,6 +121,8 @@ public class ShootShooter extends CommandBase {
       System.out.println("TIME WHEN SHOT: " + shooterTimer.get());
     } else if (manipulatorController.getAButton()) {
       shooterSubsystem.moveBeltDown();
+    } else if (manipulatorController.getLeftBumper()) {
+      shooterSubsystem.moveBeltUp();
     } else {
       shooterSubsystem.stopBelt();
     } 

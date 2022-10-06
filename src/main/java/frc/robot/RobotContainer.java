@@ -8,10 +8,12 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.JoystickDrive;
+import frc.robot.commands.MoveArm;
 import frc.robot.commands.MoveClimb;
 import frc.robot.commands.RollIntake;
 import frc.robot.commands.ShootShooter;
 import frc.robot.commands.Autonomous.TwoBall;
+import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -32,6 +34,7 @@ public class RobotContainer {
   public final static LimelightSubsystem limelightSubsystem = new LimelightSubsystem();
   public final static ClimbSubsystem climbSubsystem = new ClimbSubsystem();
   public final static IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+  public final static ArmSubsystem armSubsystem = new ArmSubsystem();
 
   public static final XboxController driverController = new XboxController(OIConstants.DRIVER_CONTROLLER_PORT);
   public static final XboxController manipulatorController = new XboxController(OIConstants.MANIPULATOR_CONTROLLER_PORT);
@@ -57,6 +60,10 @@ public class RobotContainer {
 
     intakeSubsystem.setDefaultCommand(
       new RollIntake(intakeSubsystem)
+    );
+
+    armSubsystem.setDefaultCommand(
+      new MoveArm(armSubsystem)
     );
   }
 

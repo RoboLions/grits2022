@@ -55,12 +55,10 @@ public class JoystickDrive extends CommandBase {
 
     // limelight rotation (auto aim) mode
     // TODO: limelight rotation auto aim
-    /*if (driverController.getBButton()) {
+    if (driverController.getBButton()) {
       double setPoint = 0.0; // final point in degrees
-      //System.out.println("offsetX: " + offsetX);
       rotate = (-1) * driveSubsystem.limelightRotationPID.execute(setPoint, offsetX);
-      //System.out.println("rotate " + rotate + " error " + offsetX);
-    }*/
+    }
     
     driveSubsystem.driveWithRotation(throttle, -rotate); // motion control here with joystick throttle and rotation inputs
     //driveSubsystem.driveWithRotation(0.5, 0);

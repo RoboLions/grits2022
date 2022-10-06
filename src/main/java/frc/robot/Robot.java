@@ -13,7 +13,9 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.ShooterHoodConstants;
+import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
@@ -31,6 +33,8 @@ public class Robot extends TimedRobot {
   private DriveSubsystem driveSubsystem = m_robotContainer.driveSubsystem;
   private LimelightSubsystem limelightSubsystem = m_robotContainer.limelightSubsystem;
   private ShooterSubsystem shooterSubsystem = m_robotContainer.shooterSubsystem;
+  private IntakeSubsystem intakeSubsystem = m_robotContainer.intakeSubsystem;
+  private ArmSubsystem armSubsystem = m_robotContainer.armSubsystem;
   
   private static final WPI_TalonFX leftBackMotor = RobotMap.leftBackDriveMotor;
   private static final WPI_TalonFX rightBackMotor = RobotMap.rightBackDriveMotor;

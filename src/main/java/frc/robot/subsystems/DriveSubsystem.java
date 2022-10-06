@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.lib.RoboLionsPID;
 
 public class DriveSubsystem extends SubsystemBase {
   
@@ -28,6 +29,8 @@ public class DriveSubsystem extends SubsystemBase {
   private static final WPI_TalonFX rightFrontMotor = RobotMap.rightFrontDriveMotor;
 
   private final WPI_Pigeon2 driveIMU = RobotMap.chasisIMU;
+  
+  public RoboLionsPID limelightRotationPID = new RoboLionsPID();
 
   // Odometry class for tracking robot pose
   public final DifferentialDriveOdometry m_odometry;
@@ -90,6 +93,17 @@ public class DriveSubsystem extends SubsystemBase {
     leftBackMotor.configAllowableClosedloopError(0, 0, 10);
     rightFrontMotor.configAllowableClosedloopError(0, 0, 10);
     rightBackMotor.configAllowableClosedloopError(0, 0, 10);
+
+    limelightRotationPID.initialize2(
+      0.02, // Proportional Gain 0.02=without weights, 0.03=with weights
+      0.015, // Integral Gain 0.05=without weights 0.015= with weights
+      0.0, // Derivative Gain -0.0008 =without weights, with weights
+      2, // Cage Limit degrees/sec 2=without weights, with weights
+      0.0, // Deadband
+      0.4, // MaxOutput Degrees/sec 
+      true, //enableCage
+      false //enableDeadband
+    );
 
     resetEncoders();
     m_odometry = new DifferentialDriveOdometry(driveIMU.getRotation2d());

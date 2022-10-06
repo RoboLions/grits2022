@@ -83,4 +83,11 @@ public final class Constants {
         public static final double LLAIMING = 0.035;
         public static final double MOTORGAIN = 0.75;
     }
+
+    public static final class ArmConstants {
+        public static final int TIMEOUT_MS = 10;
+
+        public static final double HOME_POSITION = -55; //-63
+        public static final double GROUND_POSITION = 60;
+    }
 }
