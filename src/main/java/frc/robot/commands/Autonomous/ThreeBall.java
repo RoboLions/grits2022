@@ -5,6 +5,7 @@
 package frc.robot.commands.Autonomous;
 
 import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.AutoIntake;
@@ -15,9 +16,9 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
-public class TwoBall extends SequentialCommandGroup {
+public class ThreeBall extends SequentialCommandGroup {
 
-  public TwoBall(final DriveSubsystem driveSubsystem, IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem) {
+  public ThreeBall(final DriveSubsystem driveSubsystem, IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem) {
     super(
 
       new ParallelDeadlineGroup(
@@ -27,7 +28,17 @@ public class TwoBall extends SequentialCommandGroup {
         //new AutoMoveArmDown(armSubsystem) TODO: create arm command
       ),
 
-      new AutoShoot(shooterSubsystem).withTimeout(3)
+      new AutoShoot(shooterSubsystem).withTimeout(3),
+
+      new FollowTrajectory(driveSubsystem, Trajectories.threeBall.toThirdBallPartOne),
+
+      new ParallelDeadlineGroup(
+        new FollowTrajectory(driveSubsystem, Trajectories.threeBall.toThirdBallPartTwo),
+        new AutoIntake(intakeSubsystem),
+        new AutoMoveElevatorUp(shooterSubsystem) 
+      ),
+
+      new AutoShoot(shooterSubsystem).withTimeout(2)
     );
   }
 }

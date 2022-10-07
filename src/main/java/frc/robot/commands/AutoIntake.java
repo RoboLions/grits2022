@@ -5,15 +5,15 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 
-public class AutoShootSecondBall extends CommandBase {
- 
-  private final ShooterSubsystem shooterSubsystem;
+public class AutoIntake extends CommandBase {
   
-  public AutoShootSecondBall(ShooterSubsystem shooter) {
-    shooterSubsystem = shooter;
-    addRequirements(shooterSubsystem);
+  private final IntakeSubsystem intakeSubsystem;
+
+  public AutoIntake(IntakeSubsystem intake) {
+    intakeSubsystem = intake;
+    addRequirements(intakeSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -23,18 +23,13 @@ public class AutoShootSecondBall extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // TODO: test values
-    shooterSubsystem.setHoodMPS(100);
-    shooterSubsystem.setShooterMPS(100);
-
-    // shooterSubsystem.setHoodRPM(100);
-    // shooterSubsystem.setShooterRPM(100);
+    intakeSubsystem.intakeBalls();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    shooterSubsystem.stopShooter();
+    intakeSubsystem.stop();
   }
 
   // Returns true when the command should end.
