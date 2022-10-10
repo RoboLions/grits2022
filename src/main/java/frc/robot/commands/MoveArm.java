@@ -27,75 +27,15 @@ public class MoveArm extends CommandBase {
 
     @Override
     public void execute() {
-        //System.out.println(-armSubsystem.getPitch());
-        // double armPower = manipulatorController.getLeftY();
         boolean y = manipulatorController.getYButton();
-        // y button = temporarily disable pid to release to ground position
+        // y button // TODO: don't know if we need y button rn
         boolean b = manipulatorController.getBButton();
-        // b button = home (bring intake up to home)
+        // b button = home (bring intake up to home), the emergency hold button
 
-        if (y) {
-            // System.out.println("     ARM TO GROUND");
-            // armSubsystem.setArmToGround();
-        } else if (b) {
+        if (b) { 
             // System.out.println("     ARM TO HOME");
-            armSubsystem.setArmToHome();
+            armSubsystem.setArmToHome(); 
         }
-
-        // switch(wrist_motion_state) {
-        //     case 0: // manual moving with stick
-        //         armSubsystem.setArmPower(armPower);
-                
-        //         if(armSubsystem.armPID.deadband_active) {
-        //             wrist_motion_state = 0;
-        //         }
-        //         // if y pressed, set to ground (move down)
-        //         if (y) {
-        //             wrist_motion_state = 1;
-        //         }
-        //         // if b pressed, set to home (move up)
-        //         if (b) {
-        //             wrist_motion_state = 2;
-        //         } 
-                
-        //         /*else if (armSubsystem.armPID.deadband_active) {
-        //             wrist_motion_state = 0;
-        //         }*/
-        //         break;
-        //     case 1:
-        //     // ground (y button)
-        //         armSubsystem.setArmToGround();
-        //         /*if(armSubsystem.armPID.deadband_active) {
-        //             wrist_motion_state = 0;
-        //         }*/
-                
-        //         // if stick is full power, override Y button
-        //         if (armPower > 0.5 || armPower < -0.5) {
-        //             wrist_motion_state = 0;
-        //         }
-        //         // if b button pressed, override Y Button
-        //         if (b) {
-        //             wrist_motion_state = 2;
-        //         }
-        //         break;
-        //     case 2:
-        //     // home (b button)
-        //         armSubsystem.setArmToHome();
-        //         if(armSubsystem.armPID.deadband_active) {
-        //             wrist_motion_state = 0;
-        //         }  
-        //         if (y) {
-        //             wrist_motion_state = 1;
-        //         }              
-        //         break;
-        //     default:
-        //         wrist_motion_state = 0;
-        //         break;
-        // }
-        // if(Math.abs(armPower) > 0.6 ) { 
-        //     // wakes up the arm from PID control and back to joystick control
-        //     wrist_motion_state = 0;
-        // }
     }
 
     @Override

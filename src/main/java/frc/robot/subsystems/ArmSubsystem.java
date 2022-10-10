@@ -45,16 +45,17 @@ public class ArmSubsystem extends SubsystemBase {
                           true
       );
   }
-  
+
   @Override
   public void periodic() {
+      // TODO: review if we need the PID to turn on since we want intake to be down except for during emergencies
       // automatically set PID on when in the range of home position
       arm_pitch_readout = getPitch();
-      if ((ArmConstants.HOME_POSITION + 20.0) > arm_pitch_readout) { 
-        armMotor.setNeutralMode(NeutralMode.Brake);
+      if ((ArmConstants.HOME_POSITION + 10.0) > arm_pitch_readout) { 
+        // armMotor.setNeutralMode(NeutralMode.Brake); TODO: un-comment when done with PID tuning
         System.out.println("ARM PID ON");
-        armPID.initialize2( ArmConstants.P, // Proportional Gain 0.09
-                            ArmConstants.I, // Integral Gain 0.1
+        armPID.initialize2( ArmConstants.P, // Proportional Gain 
+                            ArmConstants.I, // Integral Gain
                             ArmConstants.D, // Derivative Gain
                             10, // Cage Limit
                             1, // Deadband
@@ -62,26 +63,38 @@ public class ArmSubsystem extends SubsystemBase {
                             true,
                             true
         );
+      } else {
+          armMotor.setNeutralMode(NeutralMode.Coast);
+          System.out.println("ARM PID OFF");
       }
   }
 
-  public void moveArmToPosition(double target_pitch) {
+  public void moveArmToPosition(double target_pitch) { 
       arm_pitch_readout = getPitch();
-      double allowableError = 15;
+
+    //   double allowableError = 15;
       
-    //   double arm_cmd = armPID.execute((double)target_pitch, (double)arm_pitch_readout);
-    if (arm_pitch_readout < (target_pitch + allowableError)) {
-        arm_cmd = 0;
-    } else {
-        arm_cmd = target_pitch - arm_pitch_readout;
-        // hard deadband to arm so we don't break it
-        if(arm_cmd > MAX_ARM_POWER) {
-            arm_cmd = MAX_ARM_POWER;
-        } 
-        else if(arm_cmd < MAX_ARM_POWER) {
-            arm_cmd = MAX_ARM_POWER;
-        }
-    }
+    // if (arm_pitch_readout < (target_pitch + allowableError)) {
+    //     arm_cmd = 0.0;
+    // } else {
+    //     arm_cmd = target_pitch - arm_pitch_readout;
+    //     // hard deadband to arm so we don't break it
+    //     if(arm_cmd > MAX_ARM_POWER) {
+    //         arm_cmd = MAX_ARM_POWER;
+    //     } 
+    //     else if(arm_cmd < MAX_ARM_POWER) {
+    //         arm_cmd = MAX_ARM_POWER;
+    //     }
+    // }
+
+      arm_cmd = armPID.execute((double)target_pitch, (double)arm_pitch_readout);
+        
+      if(arm_cmd > MAX_ARM_POWER) {
+          arm_cmd = MAX_ARM_POWER;
+      } 
+      else if(arm_cmd < MAX_ARM_POWER) {
+          arm_cmd = MAX_ARM_POWER;
+      }
       
       System.out.println(target_pitch + ", " + arm_pitch_readout + ", " + arm_cmd);
       System.out.println("Arm Cmd" + arm_cmd);

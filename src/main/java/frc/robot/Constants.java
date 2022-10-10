@@ -90,8 +90,20 @@ public final class Constants {
         public static final double HOME_POSITION = -82.0; // -55 on old intake design
         public static final double GROUND_POSITION = -30.0; // 60 on old intake design
 
-        public static final double P = 0.0;
-        public static final double I = 0.0;
+        public static final double P = 0.08; // 0.09 for old intake design
+        public static final double I = 0.3; // 0.1 for old intake design
         public static final double D = 0.0;
+
+        /* 
+        ground:
+            Yaw   :178.586 '
+            Pitch :-30.0146 '
+            Roll  :3.47168 '
+
+        home:
+            Yaw   :48.2959 '
+            Pitch :-82.2217 '
+            Roll  :-53.1738 ' 
+        */
     }
 }
