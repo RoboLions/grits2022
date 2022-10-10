@@ -53,17 +53,15 @@ public class Trajectories {
     }
 
     public static class twoBall {
-        // public static final Trajectory toSecondBall = PathPlanner.loadPath("TwoBall", 0.5, 0.5);
         public static final Trajectory toSecondBall = getToSecondBall();
     }
 
     public static class threeBall {
-        //public static final Trajectory toThirdBall = PathPlanner.loadPath("ThreeBall", 0.5, 0.5);
         public static final Trajectory toThirdBallPartOne = getToThirdBallPartOne();
         public static final Trajectory toThirdBallPartTwo = getToThirdBallPartTwo();
     }
 
     public static class fourBall {
-        public static final Trajectory toFourthBall = PathPlanner.loadPath("FourBall", 0.5, 0.5);
+        
     }
 }

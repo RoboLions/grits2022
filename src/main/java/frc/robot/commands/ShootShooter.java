@@ -54,15 +54,14 @@ public class ShootShooter extends CommandBase {
     t = (-yVelocity + Math.sqrt((Math.pow(yVelocity, 2)) - (4*(0.5*ShooterConstants.g*-1)))) / (2*(0.5*ShooterConstants.g)); //change the minus to plus if a negative value is returned
     xVelocity = x/t;
     initialVelocity = Math.sqrt((Math.pow(xVelocity, 2)) + Math.pow(yVelocity, 2)); // meters per second
-    RPMofFront = (initialVelocity * 60) / (2 * Math.PI * .0508); //RPM .0508meters is radius of the wheel
-    RPMofHood = (initialVelocity * 60) / (2 * Math.PI * .0254); //RPM .0254meters is radius of the wheel
+    RPMofFront = (initialVelocity * 60) / (2 * Math.PI * .0508); //RPM, .0508meters is radius of the wheel
+    RPMofHood = (initialVelocity * 60) / (2 * Math.PI * .0254); //RPM, .0254meters is radius of the wheel
     shooterSpeed = (0.471 * (Math.pow(x, 2))) + (-0.132 * x) + 19.4;
     hoodSpeed = (1.55 * (Math.pow(x, 2))) + (-4.65 * x) + 16.3;
 
     //System.out.println(initialVelocity); // testing purposes
-
-    System.out.println("shooter error: " + shooterSubsystem.getShooterError());
-    System.out.println("hood error: " + shooterSubsystem.getHoodError());
+    // System.out.println("shooter error: " + shooterSubsystem.getShooterError()); // testing purposes
+    // System.out.println("hood error: " + shooterSubsystem.getHoodError()); // testing purposes
 
     if (manipulatorController.getXButton()) { // was initially y button 
       // shooterSubsystem.setShooterMPS(31.5);
@@ -72,8 +71,8 @@ public class ShootShooter extends CommandBase {
 
       // TODO: figure out why elevator going up caues shooter MPS oscillation w/ Chris
       // we just increased the error for now
-      if (Math.abs(shooterSubsystem.getShooterError()) < 4.5 && // 1.5
-          Math.abs(shooterSubsystem.getHoodError()) < 5) { // 2
+      if (Math.abs(shooterSubsystem.getShooterError()) < 4.5 && // original allowed error: 1.5mps
+          Math.abs(shooterSubsystem.getHoodError()) < 5) { // original allowed error: 2mps
         counter++;
       } else {
         counter = 0;

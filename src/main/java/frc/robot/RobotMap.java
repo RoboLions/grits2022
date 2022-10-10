@@ -30,7 +30,7 @@ public class RobotMap {
     public static final int HIGH_LEFT_CLIMB_PORT = 16;
     
     public static WPI_VictorSPX intakeRollerMotor = new WPI_VictorSPX(INTAKE_ROLLER_PORT);
-    public static WPI_VictorSPX intakeArmMotor = new WPI_VictorSPX(INTAKE_ARM_PORT);
+    public static WPI_TalonFX intakeArmMotor = new WPI_TalonFX(INTAKE_ARM_PORT);
     public static Pigeon2 intakeIMU = new Pigeon2(INTAKE_ARM_IMU_PORT);
 
     public static WPI_TalonFX leftBackDriveMotor = new WPI_TalonFX(LEFT_BACK_DRIVE_PORT);

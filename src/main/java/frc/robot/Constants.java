@@ -87,7 +87,11 @@ public final class Constants {
     public static final class ArmConstants {
         public static final int TIMEOUT_MS = 10;
 
-        public static final double HOME_POSITION = -55; //-63
-        public static final double GROUND_POSITION = 60;
+        public static final double HOME_POSITION = -82.0; // -55 on old intake design
+        public static final double GROUND_POSITION = -30.0; // 60 on old intake design
+
+        public static final double P = 0.0;
+        public static final double I = 0.0;
+        public static final double D = 0.0;
     }
 }

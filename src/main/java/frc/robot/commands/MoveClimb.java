@@ -11,21 +11,22 @@ import frc.robot.subsystems.ClimbSubsystem;
 
 public class MoveClimb extends CommandBase {
 
-  public static final double LEFT_UP_POWER = 1; 
-  public static final double RIGHT_UP_POWER = -1;
+  // powers for mid climb motors
+  public static final double LEFT_UP_POWER = -1; 
+  public static final double RIGHT_UP_POWER = 1;
 
-  public static final double LEFT_DOWN_POWER = -1;
-  public static final double RIGHT_DOWN_POWER = 1; 
+  public static final double LEFT_DOWN_POWER = 1;
+  public static final double RIGHT_DOWN_POWER = -1; 
 
-  public static final double LEFT_SLOW_UP_POWER = 0.2;
-  public static final double LEFT_SLOW_DOWN_POWER = -0.2;
-  public static final double RIGHT_SLOW_UP_POWER = -0.2;
-  public static final double RIGHT_SLOW_DOWN_POWER = 0.2;
+  public static final double LEFT_SLOW_UP_POWER = -0.2;
+  public static final double LEFT_SLOW_DOWN_POWER = 0.2;
+  public static final double RIGHT_SLOW_UP_POWER = 0.2;
+  public static final double RIGHT_SLOW_DOWN_POWER = -0.2;
 
-  public static final double LEFT_TEST_UP_POWER = 0.1;
-  public static final double LEFT_TEST_DOWN_POWER = -0.1;
-  public static final double RIGHT_TEST_UP_POWER = -0.1;
-  public static final double RIGHT_TEST_DOWN_POWER = 0.1;
+  public static final double LEFT_TEST_UP_POWER = -0.1;
+  public static final double LEFT_TEST_DOWN_POWER = 0.1;
+  public static final double RIGHT_TEST_UP_POWER = 0.1;
+  public static final double RIGHT_TEST_DOWN_POWER = -0.1;
 
   public static final double R_MAX_ENCODER_COUNT = 9000000;
   public static final double R_MIN_ENCODER_COUNT = 0;
