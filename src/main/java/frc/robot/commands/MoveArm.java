@@ -14,8 +14,6 @@ public class MoveArm extends CommandBase {
     private final ArmSubsystem armSubsystem;
     private final XboxController manipulatorController = RobotContainer.manipulatorController;
 
-    public static int wrist_motion_state = 0;
-
     public MoveArm(ArmSubsystem arm) {
         armSubsystem = arm;
         addRequirements(armSubsystem);
@@ -27,14 +25,12 @@ public class MoveArm extends CommandBase {
 
     @Override
     public void execute() {
-        boolean y = manipulatorController.getYButton();
-        // y button // TODO: don't know if we need y button rn
-        boolean b = manipulatorController.getBButton();
-        // b button = home (bring intake up to home), the emergency hold button
 
+        // If arm needs to manually move back up
+        boolean b = manipulatorController.getBButton();
+      
         if (b) { 
-            // System.out.println("     ARM TO HOME");
-            armSubsystem.setArmToHome(); 
+            armSubsystem.moveArmUp();
         }
     }
 

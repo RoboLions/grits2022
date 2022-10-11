@@ -45,13 +45,6 @@ public final class Constants {
     public static final class ShooterConstants {
         public static final double TICKS_PER_METER = (Constants.MOTOR_ENCODER_COUNTS_PER_REV * 0.5) / (0.1016 * Math.PI);
         public static final double METERS_PER_TICKS = 1 / TICKS_PER_METER;
-        
-        // TODO: test and tune
-        // 10.01.22 - ziegler nichols 
-        // 0.205 = kP (period)
-        // 0.5 = kU (ultimate gain)
-        // P = 0.45*0.5 = 0.225
-        // I = 0.54*0.5/0.205 = 1.317
 
         public static final double P = 0.225; // previous value = 0.1 
         public static final double I = 0.00002; // previous value = 0.001

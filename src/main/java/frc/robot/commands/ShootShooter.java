@@ -69,7 +69,6 @@ public class ShootShooter extends CommandBase {
       // shooterSubsystem.setHoodMPS(68);
       shooterSubsystem.setHoodMPS(hoodSpeed);
 
-      // TODO: figure out why elevator going up caues shooter MPS oscillation w/ Chris
       // we just increased the error for now
       if (Math.abs(shooterSubsystem.getShooterError()) < 4.5 && // original allowed error: 1.5mps
           Math.abs(shooterSubsystem.getHoodError()) < 5) { // original allowed error: 2mps

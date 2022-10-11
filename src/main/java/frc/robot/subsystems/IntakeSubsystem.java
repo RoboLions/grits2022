@@ -20,31 +20,33 @@ public class IntakeSubsystem extends SubsystemBase {
   public static final double OUT_POWER = -0.75; // 0.75
 
   private static final WPI_VictorSPX intakeMotor = RobotMap.intakeRollerMotor;
+  private static final WPI_VictorSPX frontElevatorMotor = RobotMap.frontElevatorMotor;
+  private static final WPI_VictorSPX backElevatorMotor = RobotMap.backElevatorMotor;
+
+  public static final double LEFT_MOVE_BELT_UP_POWER = 0.5;
+  public static final double LEFT_MOVE_BELT_DOWN_POWER = -0.3;
+  public static final double RIGHT_MOVE_BELT_UP_POWER = -0.5;
+  public static final double RIGHT_MOVE_BELT_DOWN_POWER = 0.3;
 
   public IntakeSubsystem() {
     intakeMotor.setNeutralMode(NeutralMode.Coast);
-    //intakeMotor.set(0);
   }
 
   public void intakeBalls() {
     intakeMotor.set(IN_POWER);
+    frontElevatorMotor.set(LEFT_MOVE_BELT_UP_POWER);
+    backElevatorMotor.set(RIGHT_MOVE_BELT_UP_POWER);
   }
 
   public void outtakeBalls() {
     intakeMotor.set(OUT_POWER);
+    frontElevatorMotor.set(LEFT_MOVE_BELT_DOWN_POWER);
+    backElevatorMotor.set(RIGHT_MOVE_BELT_DOWN_POWER);
   }
 
   public void stop() {
     intakeMotor.set(0);
   }
-
-  /*public boolean isIntakeRunning() {
-    if (intakeMotor.getMotorOutputPercent() > 0.1) {
-      return true;
-    } else {
-      return false;
-    }
-  }*/
 
   @Override
   public void periodic() {

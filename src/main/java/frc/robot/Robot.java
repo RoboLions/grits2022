@@ -45,6 +45,8 @@ public class Robot extends TimedRobot {
   private static final WPI_TalonFX rightShooterMotor = RobotMap.rightShooterMotor;
   private static final WPI_TalonFX hoodMotor = RobotMap.shooterHoodMotor;
 
+  private static final WPI_TalonFX intakeArmMotor = RobotMap.intakeArmMotor;
+
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -66,6 +68,7 @@ public class Robot extends TimedRobot {
     leftShooterMotor.configFactoryDefault();
     rightShooterMotor.configFactoryDefault();
     hoodMotor.configFactoryDefault();
+    intakeArmMotor.configFactoryDefault();
 
     leftBackMotor.config_kF(0, DriveConstants.F, 10);
     leftBackMotor.config_kP(0, DriveConstants.P, 10);

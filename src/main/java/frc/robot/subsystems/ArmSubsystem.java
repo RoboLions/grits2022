@@ -16,130 +16,36 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 import frc.robot.lib.RoboLionsPID;
 
+/*
+1. Bring arm down at the start of the match, so apply some power for only a tiny bit of time
+2. If some button pressed, bring the arm back up while the button is held
+both intake and elevator must run at the same time
+*/
+
 public class ArmSubsystem extends SubsystemBase {
-    // TODO: fix pid b/c that's what keeps the arm up (acting as the brake mode), turn off pid when moving from home to ground position
-    // we're relying on gravity to make intake fall
-
-    // pid is automatically on when around home position, only turn pid off when manipulator presses the button
-
+   
   private final WPI_TalonFX armMotor = RobotMap.intakeArmMotor;
-  public RoboLionsPID armPID = new RoboLionsPID();
-  private final Pigeon2 imu = RobotMap.intakeIMU;
-  public static double MAX_ARM_POWER = 0.2; // DON'T PUT ANY FASTER THAN THIS, 0.9 for old intake design
-  public static double arm_cmd;
 
-  public double arm_pitch_readout = 0;
+  public static double MAX_ARM_POWER = 0.2; // DON'T PUT ANY FASTER THAN THIS
 
   public ArmSubsystem() {
-      // this is in coast because brake isn't strong enough to hold it in home position anyway
-      armMotor.setNeutralMode(NeutralMode.Coast); 
-      // TODO: figure out new PID values
-      // keep PID on at the start
-      armPID.initialize2( 0.0, // Proportional Gain 0.09
-                          0.0, // Integral Gain 0.1
-                          0.0, // Derivative Gain
-                          10, // Cage Limit
-                          1, // Deadband
-                          MAX_ARM_POWER, // MaxOutput hard deadband as to what the maximum possible command is
-                          true,
-                          true
-      );
+    // this is in coast because brake isn't strong enough to hold it in home position anyway
+    armMotor.setNeutralMode(NeutralMode.Coast); 
   }
 
   @Override
   public void periodic() {
-      // TODO: review if we need the PID to turn on since we want intake to be down except for during emergencies
-      // automatically set PID on when in the range of home position
-      arm_pitch_readout = getPitch();
-      if ((ArmConstants.HOME_POSITION + 10.0) > arm_pitch_readout) { 
-        // armMotor.setNeutralMode(NeutralMode.Brake); TODO: un-comment when done with PID tuning
-        System.out.println("ARM PID ON");
-        armPID.initialize2( ArmConstants.P, // Proportional Gain 
-                            ArmConstants.I, // Integral Gain
-                            ArmConstants.D, // Derivative Gain
-                            10, // Cage Limit
-                            1, // Deadband
-                            MAX_ARM_POWER, // MaxOutput hard deadband as to what the maximum possible command is
-                            true,
-                            true
-        );
-      } else {
-          armMotor.setNeutralMode(NeutralMode.Coast);
-          System.out.println("ARM PID OFF");
-      }
   }
 
-  public void moveArmToPosition(double target_pitch) { 
-      arm_pitch_readout = getPitch();
-
-    //   double allowableError = 15;
-      
-    // if (arm_pitch_readout < (target_pitch + allowableError)) {
-    //     arm_cmd = 0.0;
-    // } else {
-    //     arm_cmd = target_pitch - arm_pitch_readout;
-    //     // hard deadband to arm so we don't break it
-    //     if(arm_cmd > MAX_ARM_POWER) {
-    //         arm_cmd = MAX_ARM_POWER;
-    //     } 
-    //     else if(arm_cmd < MAX_ARM_POWER) {
-    //         arm_cmd = MAX_ARM_POWER;
-    //     }
-    // }
-
-      arm_cmd = armPID.execute((double)target_pitch, (double)arm_pitch_readout);
-        
-      if(arm_cmd > MAX_ARM_POWER) {
-          arm_cmd = MAX_ARM_POWER;
-      } 
-      else if(arm_cmd < MAX_ARM_POWER) {
-          arm_cmd = MAX_ARM_POWER;
-      }
-      
-      System.out.println(target_pitch + ", " + arm_pitch_readout + ", " + arm_cmd);
-      System.out.println("Arm Cmd" + arm_cmd);
-      armMotor.set(arm_cmd);
+  public void dropArm() {
+    armMotor.set(0.1);
   }
 
-  public void setArmToHome() {
-    moveArmToPosition(ArmConstants.HOME_POSITION);
-    System.out.println(ArmConstants.HOME_POSITION + ", " + arm_pitch_readout + ", " + arm_cmd);
-    System.out.println("Arm Cmd: " + arm_cmd);
-  }
-
-  public void setArmToGround() { // turn off PID to release intake to the ground
-    armPID.initialize2( 0.0, // Proportional Gain
-                        0.0, // Integral Gain
-                        0.0, // Derivative Gain
-                        10, // Cage Limit
-                        1, // Deadband
-                        MAX_ARM_POWER, // MaxOutput hard deadband as to what the maximum possible command is
-                        true,
-                        true
-    );
-  }
-
-  public void setArmPower(double power) {
-      // add hard deadband to arm so we don't break it
-      if(power > MAX_ARM_POWER) {
-          power = MAX_ARM_POWER;
-      } else if(power < -MAX_ARM_POWER) {
-          power = -MAX_ARM_POWER;
-      }
-
-      if((power > 0 && power < 0.25) || (power < 0 && power > -0.25)) {
-          power = 0;
-      }
-
-      armMotor.set(power);
+  public void moveArmUp() {
+    armMotor.set(0.15);
   }
 
   public void stop() {
-      armMotor.set(0);
-  }
-
-  public double getPitch() {
-    double pitch = imu.getPitch();
-    return pitch;
+    armMotor.set(0);
   }
 }

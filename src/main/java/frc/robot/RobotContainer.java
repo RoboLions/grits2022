@@ -39,7 +39,7 @@ public class RobotContainer {
   public static final XboxController driverController = new XboxController(OIConstants.DRIVER_CONTROLLER_PORT);
   public static final XboxController manipulatorController = new XboxController(OIConstants.MANIPULATOR_CONTROLLER_PORT);
 
-  public static TwoBall defaultAutoPath = new TwoBall(driveSubsystem, intakeSubsystem, shooterSubsystem);
+  public static TwoBall defaultAutoPath = new TwoBall(driveSubsystem, intakeSubsystem, shooterSubsystem, armSubsystem);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
