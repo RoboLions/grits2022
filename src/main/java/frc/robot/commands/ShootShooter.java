@@ -77,6 +77,11 @@ public class ShootShooter extends CommandBase {
         counter = 0;
         shooterTimer.start(); // set time to 0 when error > 0.5 for both hood and shooter
       }
+    } else if (manipulatorController.getRightBumper()) { //poop it  out
+      shooterSubsystem.setShooterMPS(5);
+      shooterSubsystem.setHoodMPS(10);
+    } else if (manipulatorController.getLeftBumper()) {
+      shooterSubsystem.setShooterMPS(-2);
     } else {
       shooterSubsystem.stopShooter();
     }

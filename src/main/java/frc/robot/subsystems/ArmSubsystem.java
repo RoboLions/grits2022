@@ -26,7 +26,7 @@ public class ArmSubsystem extends SubsystemBase {
    
   private final WPI_TalonFX armMotor = RobotMap.intakeArmMotor;
 
-  public static double MAX_ARM_POWER = 0.2; // DON'T PUT ANY FASTER THAN THIS
+  // MAX_ARM_POWER = 0.2, DON'T PUT ANY FASTER THAN THIS
 
   public ArmSubsystem() {
     // this is in coast because brake isn't strong enough to hold it in home position anyway
@@ -38,11 +38,11 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public void dropArm() {
-    armMotor.set(0.1);
+    armMotor.set(-0.1);
   }
 
   public void moveArmUp() {
-    armMotor.set(0.15);
+    armMotor.set(0.2);
   }
 
   public void stop() {

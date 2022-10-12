@@ -31,6 +31,8 @@ public class MoveArm extends CommandBase {
       
         if (b) { 
             armSubsystem.moveArmUp();
+        } else {
+            armSubsystem.stop();
         }
     }
 
