@@ -63,10 +63,9 @@ public class ShootShooter extends CommandBase {
     // System.out.println("shooter error: " + shooterSubsystem.getShooterError()); // testing purposes
     // System.out.println("hood error: " + shooterSubsystem.getHoodError()); // testing purposes
 
-    if (manipulatorController.getXButton()) { // was initially y button 
-      // shooterSubsystem.setShooterMPS(31.5);
+    // SHOOT UPPER HUB
+    if (manipulatorController.getXButton()) {
       shooterSubsystem.setShooterMPS(shooterSpeed);
-      // shooterSubsystem.setHoodMPS(68);
       shooterSubsystem.setHoodMPS(hoodSpeed);
 
       // we just increased the error for now
@@ -77,11 +76,16 @@ public class ShootShooter extends CommandBase {
         counter = 0;
         shooterTimer.start(); // set time to 0 when error > 0.5 for both hood and shooter
       }
-    } else if (manipulatorController.getRightBumper()) { //poop it  out
+    
+    // SHOOT LOWER HUB
+    } else if (manipulatorController.getRightBumper()) { 
       shooterSubsystem.setShooterMPS(5);
       shooterSubsystem.setHoodMPS(10);
-    } else if (manipulatorController.getLeftBumper()) {
-      shooterSubsystem.setShooterMPS(-2);
+    } 
+
+    // REVERSE SHOOTER
+    else if (manipulatorController.getYButton()) {
+      shooterSubsystem.setShooterMPS(-3);
     } else {
       shooterSubsystem.stopShooter();
     }
@@ -93,59 +97,17 @@ public class ShootShooter extends CommandBase {
       LimelightSubsystem.setDriverCamera();
     }*/
 
-    // reverse
-  /*  if (manipulatorController.getLeftTriggerAxis() > 0.25) {
-      shooterSubsystem.setShooterSpeed(-0.35);
-    } 
-    // shoot upper hub
-    else if (manipulatorController.getRightTriggerAxis() > 0.25) {
-      shooterSubsystem.steadyShoot(5); //0.94
-      shooterSubsystem.setHoodSpeed(0.75); //.65
-    } 
-    // shoot low goal
-    else if (manipulatorController.getRightBumper()) {
-      shooterSubsystem.steadyShoot(0.83);
-    }
-    // shoot without limelight to upper hub from 10 feet
-    else if (manipulatorController.getLeftBumper()) {
-      shooterSubsystem.steadyShoot(2.65); //2.2
-      shooterSubsystem.setHoodSpeed(0.75);
-    }
-    else {
-      shooterSubsystem.stopShooter();
-      shooterSubsystem.lastShootVelocity = 0;
-    }
-
-    */
-
     // elevator only goes up when the error is small enough for x number of seconds
     if (manipulatorController.getXButton() && counter > 10) {
       shooterSubsystem.moveBeltUp();
       System.out.println("TIME WHEN SHOT: " + shooterTimer.get());
-    } else if (manipulatorController.getAButton()) {
-      shooterSubsystem.moveBeltDown();
-    } else if (manipulatorController.getLeftBumper()) {
-      shooterSubsystem.moveBeltUp();
-    } else {
-      shooterSubsystem.stopBelt();
     } 
-    
-
-    /*if (manipulatorController.getXButton()) {
-      if (Math.abs(shooterSubsystem.getLeftEncoderVelocityMetersPerSecond()) < 0.25) {
-        if (elevatorSensor1.get() == false) {
-          shooterSubsystem.stopBelt();
-        } else {
-          shooterSubsystem.moveBeltUp();
-        }
-      } else {
-        shooterSubsystem.moveBeltUp();
-      }
-    } else if (manipulatorController.getAButton()) {
+    // MANUAL MOVE ELEVATOR DOWN 
+    else if (manipulatorController.getAButton()) {
       shooterSubsystem.moveBeltDown();
     } else {
       shooterSubsystem.stopBelt();
-    }*/
+    }
   }
 
   // Called once the command ends or is interrupted.

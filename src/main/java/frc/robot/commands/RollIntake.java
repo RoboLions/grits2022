@@ -27,12 +27,12 @@ public class RollIntake extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    boolean startButton = manipulatorController.getStartButton();
-    boolean backButton = manipulatorController.getBackButton();
+    boolean rightTrigger = manipulatorController.getRightTriggerAxis() > 0.25;
+    boolean leftTrigger = manipulatorController.getLeftTriggerAxis() > 0.25;
 
-    if (startButton) {
+    if (rightTrigger) {
       intakeSubsystem.outtakeBalls();
-    } else if (backButton) {
+    } else if (leftTrigger) {
       intakeSubsystem.intakeBalls();
     } else {
       intakeSubsystem.stop();
