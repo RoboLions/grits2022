@@ -76,19 +76,19 @@ public class MoveClimb extends CommandBase {
     boolean start_button = driverController.getStartButton();
     boolean back_button = driverController.getBackButton();
 
-    if ((climbSubsystem.getRightLimitSwitchValue() == 1) || (climbSubsystem.getLeftLimitSwitchValue() == 1)) {
+    /*if ((climbSubsystem.getRightLimitSwitchValue() == 1) || (climbSubsystem.getLeftLimitSwitchValue() == 1)) {
       climbSubsystem.resetEncoder();
     }
 
     // Pull down climber DURING COMPETITION (climbing)
-    if (left_bumper && 
+    if (left_bumper) && 
        (rightCurrentPosition > R_CLIMB_TARGET_ENCODER_COUNT) && 
        (leftCurrentPosition > L_CLIMB_TARGET_ENCODER_COUNT)) {
       leftClimbPower = LEFT_DOWN_POWER; // moving inwards
       rightClimbPower = RIGHT_DOWN_POWER;
     }
     // Pull up climber to target position DURING COMPETITION
-    else if (right_bumper && 
+    else if (right_bumper) && 
             (rightCurrentPosition < R_MID_TARGET_ENCODER_COUNT) &&
             (leftCurrentPosition < L_MID_TARGET_ENCODER_COUNT)) {
       leftClimbPower = LEFT_UP_POWER;
@@ -99,7 +99,6 @@ public class MoveClimb extends CommandBase {
       leftClimbPower = LEFT_SLOW_DOWN_POWER;
       rightClimbPower = RIGHT_SLOW_DOWN_POWER;
     }
-    // Pull up climber to max position
     else if (start_button) {
       climbSubsystem.moveServoOut();
     } 
@@ -109,10 +108,35 @@ public class MoveClimb extends CommandBase {
     } else {
       leftClimbPower = 0;
       rightClimbPower = 0;
-    }
+    }*/
 
-    climbSubsystem.setLeftClimbPower(leftClimbPower);
-    climbSubsystem.setRightClimbPower(rightClimbPower);
+    // TODO: put constants in constants file and clean this file
+
+    // CLIMB DOWN
+    if (left_bumper) {
+      climbSubsystem.setLeftClimbPower(1); 
+      climbSubsystem.setRightClimbPower(-1);
+    } 
+    // CLIMB UP 
+    else if (right_bumper) {
+      climbSubsystem.setLeftClimbPower(-1); 
+      climbSubsystem.setRightClimbPower(1);
+    } 
+    // SLOW DOWN 
+    else if (back_button) {
+      climbSubsystem.setLeftClimbPower(0.2); 
+      climbSubsystem.setRightClimbPower(-0.2);
+    } 
+    // SERVOS OUT
+    else if (start_button) {
+      climbSubsystem.moveServoOut();
+    } else if (!left_bumper && !right_bumper ) {
+      climbSubsystem.setLeftClimbPower(0); 
+      climbSubsystem.setRightClimbPower(0);
+    } else {
+      climbSubsystem.setLeftClimbPower(0); 
+      climbSubsystem.setRightClimbPower(0);
+    }
 
     if (driverController.getLeftTriggerAxis() > 0.25) {
       // up

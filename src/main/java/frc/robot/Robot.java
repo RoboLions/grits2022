@@ -14,6 +14,7 @@ import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.ShooterHoodConstants;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
@@ -35,6 +36,7 @@ public class Robot extends TimedRobot {
   private ShooterSubsystem shooterSubsystem = m_robotContainer.shooterSubsystem;
   private IntakeSubsystem intakeSubsystem = m_robotContainer.intakeSubsystem;
   private ArmSubsystem armSubsystem = m_robotContainer.armSubsystem;
+  private ClimbSubsystem climbSubsystem = m_robotContainer.climbSubsystem;
   
   private static final WPI_TalonFX leftBackMotor = RobotMap.leftBackDriveMotor;
   private static final WPI_TalonFX rightBackMotor = RobotMap.rightBackDriveMotor;
@@ -60,6 +62,8 @@ public class Robot extends TimedRobot {
     driveSubsystem.resetEncoders();
     driveSubsystem.ZeroYaw();
     limelightSubsystem.setVisionProcessor();
+
+    //climbSubsystem.resetEncoder();
 
     leftFrontMotor.configFactoryDefault();
     rightFrontMotor.configFactoryDefault();
