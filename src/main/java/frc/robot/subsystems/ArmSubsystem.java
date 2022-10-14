@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
@@ -25,27 +26,71 @@ both intake and elevator must run at the same time
 public class ArmSubsystem extends SubsystemBase {
    
   private final WPI_TalonFX armMotor = RobotMap.intakeArmMotor;
+  public RoboLionsPID armPID = new RoboLionsPID();
+  private final Pigeon2 imu = RobotMap.intakeIMU;
+  public static double MAX_ARM_POWER = 0.16;
+  public static double arm_cmd;
 
-  // MAX_ARM_POWER = 0.2, DON'T PUT ANY FASTER THAN THIS
+  public double arm_pitch_readout = 0;
 
   public ArmSubsystem() {
-    // this is in coast because brake isn't strong enough to hold it in home position anyway
-    armMotor.setNeutralMode(NeutralMode.Coast); 
+    armMotor.setNeutralMode(NeutralMode.Brake);
+    armPID.initialize2( 0.2, // Proportional Gain 0.02
+                        0.0, // Integral Gain .311
+                        0.0, // Derivative Gain
+                        10, // Cage Limit
+                        1, // Deadband
+                        MAX_ARM_POWER, // MaxOutput hard deadband as to what the maximum possible command is
+                        true,
+                        true
+    );
   }
 
-  @Override
-  public void periodic() {
-  }
-
-  public void dropArm() {
-    armMotor.set(-0.1);
+  public void moveArmToPosition(double target_pitch) {
+    arm_pitch_readout = getPitch();
+    
+    double arm_cmd = -armPID.execute((double)target_pitch, (double)arm_pitch_readout);
+    // add hard deadband to arm so we don't break it
+    if(arm_cmd > MAX_ARM_POWER) {
+        arm_cmd = MAX_ARM_POWER;
+    } else if(arm_cmd < -MAX_ARM_POWER) {
+        arm_cmd = -MAX_ARM_POWER;
+    }
+    
+    System.out.println(target_pitch + ", " + arm_pitch_readout + ", " + arm_cmd);
+    //System.out.println("Arm Cmd" + arm_cmd);
+    armMotor.set(arm_cmd);
   }
 
   public void moveArmUp() {
-    armMotor.set(0.2);
+      moveArmToPosition(ArmConstants.UP_POSITION);
+  }
+
+  public void moveArmDown() {
+      moveArmToPosition(ArmConstants.DOWN_POSITION);
+  }
+
+  public void setArmPower(double power) {
+      // add hard deadband to arm so we don't break it
+      if(power > MAX_ARM_POWER) {
+          power = MAX_ARM_POWER;
+      } else if(power < -MAX_ARM_POWER) {
+          power = -MAX_ARM_POWER;
+      }
+
+      /*if((power > 0 && power < 0.1) || (power < 0 && power > -0.1)) {
+          power = 0;
+      }*/
+
+      armMotor.set(power);
   }
 
   public void stop() {
-    armMotor.set(0);
+      armMotor.set(0);
+  }
+
+  public double getPitch() {
+    double pitch = imu.getPitch();
+    return pitch;
   }
 }

@@ -84,7 +84,7 @@ public class ShootShooter extends CommandBase {
     } 
 
     // REVERSE SHOOTER
-    else if (manipulatorController.getYButton()) {
+    else if (manipulatorController.getLeftBumper()) {
       shooterSubsystem.setShooterMPS(-3);
     } else {
       shooterSubsystem.stopShooter();

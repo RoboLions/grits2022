@@ -23,7 +23,7 @@ public class AutoDropArm extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    armSubsystem.dropArm();
+    armSubsystem.moveArmDown();
   }
 
   // Called once the command ends or is interrupted.
