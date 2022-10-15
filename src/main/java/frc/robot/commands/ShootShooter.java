@@ -69,8 +69,8 @@ public class ShootShooter extends CommandBase {
       shooterSubsystem.setHoodMPS(hoodSpeed);
 
       // we just increased the error for now
-      if (Math.abs(shooterSubsystem.getShooterError()) < 4.5 && // original allowed error: 1.5mps
-          Math.abs(shooterSubsystem.getHoodError()) < 5) { // original allowed error: 2mps
+      if (Math.abs(shooterSubsystem.getShooterError()) < 2 && // original allowed error: 1.5mps
+          Math.abs(shooterSubsystem.getHoodError()) < 4) { // original allowed error: 2mps
         counter++;
       } else {
         counter = 0;
@@ -78,27 +78,28 @@ public class ShootShooter extends CommandBase {
       }
     
     // SHOOT LOWER HUB
-    } else if (manipulatorController.getRightBumper()) { 
-      shooterSubsystem.setShooterMPS(5);
-      shooterSubsystem.setHoodMPS(10);
+    } else if (manipulatorController.getLeftBumper()) { 
+      shooterSubsystem.setShooterMPS(40); // 15
+      shooterSubsystem.setHoodMPS(20); // 10
     } 
 
     // REVERSE SHOOTER
-    else if (manipulatorController.getLeftBumper()) {
+    else if (manipulatorController.getRightBumper()) {
       shooterSubsystem.setShooterMPS(-3);
     } else {
       shooterSubsystem.stopShooter();
     }
 
-    /*if (driverController.getAButtonPressed()) {
+    if (driverController.getAButtonPressed()) {
       LimelightSubsystem.setVisionProcessor();
     } 
+    /*
     if (driverController.getYButtonPressed()) {
       LimelightSubsystem.setDriverCamera();
     }*/
 
     // elevator only goes up when the error is small enough for x number of seconds
-    if (manipulatorController.getXButton() && counter > 10) {
+    if (manipulatorController.getXButton() && counter > 15) {
       shooterSubsystem.moveBeltUp();
       System.out.println("TIME WHEN SHOT: " + shooterTimer.get());
     } 

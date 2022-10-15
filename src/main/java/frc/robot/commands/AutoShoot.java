@@ -40,15 +40,15 @@ public class AutoShoot extends CommandBase {
     shooterSubsystem.setShooterMPS(shooterSpeed);
     shooterSubsystem.setHoodMPS(hoodSpeed);
 
-    if (Math.abs(shooterSubsystem.getShooterError()) < 4.5 && // 1.5
-        Math.abs(shooterSubsystem.getHoodError()) < 5) { // 2
+    if (Math.abs(shooterSubsystem.getShooterError()) < 2 && // original allowed error: 1.5mps
+        Math.abs(shooterSubsystem.getHoodError()) < 4) { // original allowed error: 2mps
       counter++;
     } else {
       counter = 0;
-      autoShooterTimer.start(); // set time to 0 when error > 0.5 for both hood and shooter
+      //shooterTimer.start(); // set time to 0 when error > 0.5 for both hood and shooter
     }
 
-    if (counter > 10) {
+    if (counter > 15) {
       shooterSubsystem.moveBeltUp();
       System.out.println("TIME WHEN SHOT: " + autoShooterTimer.get());
     } else {

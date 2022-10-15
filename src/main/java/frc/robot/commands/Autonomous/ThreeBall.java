@@ -8,27 +8,58 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.AutoAlignShooter;
 import frc.robot.commands.AutoDropArm;
 import frc.robot.commands.AutoIntake;
-import frc.robot.commands.AutoMoveElevatorUp;
+import frc.robot.commands.AutoMoveElevatorDown;
 import frc.robot.commands.AutoShoot;
 import frc.robot.commands.FollowTrajectory;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
 public class ThreeBall extends SequentialCommandGroup {
 
-  public ThreeBall(final DriveSubsystem driveSubsystem, IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem, ArmSubsystem armSubsystem) {
+  public ThreeBall(final DriveSubsystem driveSubsystem, IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem, ArmSubsystem armSubsystem, LimelightSubsystem limelightSubsystem) { 
     super(
 
-      new AutoDropArm(armSubsystem),
+      new FollowTrajectory(driveSubsystem, Trajectories.twoBall.toSecondBall).withTimeout(3),
+
+      new ParallelCommandGroup(
+        new AutoDropArm(armSubsystem).withTimeout(0.3),
+        new AutoIntake(intakeSubsystem).withTimeout(2)
+      ),
+
+      new ParallelCommandGroup(
+        new AutoMoveElevatorDown(shooterSubsystem).withTimeout(0.3),
+        new AutoAlignShooter(driveSubsystem).withTimeout(1)
+      ),
+      
+      new AutoShoot(shooterSubsystem).withTimeout(2),
+
+      // end of 2 ball, begin 3 ball
+      new FollowTrajectory(driveSubsystem, Trajectories.threeBall.toThirdBallPartOne).withTimeout(7),
+
+      new ParallelCommandGroup(
+        new FollowTrajectory(driveSubsystem, Trajectories.threeBall.toThirdBallPartTwo).withTimeout(4),
+        new AutoIntake(intakeSubsystem).withTimeout(4)
+      ),
+
+      new ParallelCommandGroup(
+        new AutoMoveElevatorDown(shooterSubsystem).withTimeout(0.3),
+        new AutoAlignShooter(driveSubsystem).withTimeout(3)
+      ),
+      
+      new AutoShoot(shooterSubsystem).withTimeout(2)
+
+      /*new AutoDropArm(armSubsystem),
 
       new ParallelDeadlineGroup(
         new FollowTrajectory(driveSubsystem, Trajectories.twoBall.toSecondBall),
         new AutoIntake(intakeSubsystem),
-        new AutoMoveElevatorUp(shooterSubsystem) // TODO: test to make sure ball does not pop out of shooter
+        new AutoMoveElevatorDown(shooterSubsystem)
       ),
 
       new AutoShoot(shooterSubsystem).withTimeout(3),
@@ -38,10 +69,10 @@ public class ThreeBall extends SequentialCommandGroup {
       new ParallelDeadlineGroup(
         new FollowTrajectory(driveSubsystem, Trajectories.threeBall.toThirdBallPartTwo),
         new AutoIntake(intakeSubsystem),
-        new AutoMoveElevatorUp(shooterSubsystem) 
+        new AutoMoveElevatorDown(shooterSubsystem) 
       ),
 
-      new AutoShoot(shooterSubsystem).withTimeout(2)
+      new AutoShoot(shooterSubsystem).withTimeout(2)*/
     );
   }
 }

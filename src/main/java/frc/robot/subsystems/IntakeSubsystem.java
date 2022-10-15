@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
@@ -22,6 +23,8 @@ public class IntakeSubsystem extends SubsystemBase {
   private static final WPI_VictorSPX intakeMotor = RobotMap.intakeRollerMotor;
   private static final WPI_VictorSPX frontElevatorMotor = RobotMap.frontElevatorMotor;
   private static final WPI_VictorSPX backElevatorMotor = RobotMap.backElevatorMotor;
+  private static final WPI_TalonFX leftShooterMotor = RobotMap.leftShooterMotor;
+  private static final WPI_TalonFX rightShooterMotor = RobotMap.rightShooterMotor;
 
   public static final double LEFT_MOVE_BELT_UP_POWER = 0.5;
   public static final double LEFT_MOVE_BELT_DOWN_POWER = -0.3;
@@ -36,6 +39,8 @@ public class IntakeSubsystem extends SubsystemBase {
     intakeMotor.set(IN_POWER);
     frontElevatorMotor.set(LEFT_MOVE_BELT_UP_POWER);
     backElevatorMotor.set(RIGHT_MOVE_BELT_UP_POWER);
+    leftShooterMotor.set(0.1);
+    rightShooterMotor.set(-0.1);
   }
 
   public void outtakeBalls() {

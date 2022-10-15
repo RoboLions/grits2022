@@ -5,11 +5,13 @@
 package frc.robot.commands.Autonomous;
 
 import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.AutoAlignShooter;
 import frc.robot.commands.AutoDropArm;
 import frc.robot.commands.AutoIntake;
-import frc.robot.commands.AutoMoveElevatorUp;
+import frc.robot.commands.AutoMoveElevatorDown;
 import frc.robot.commands.AutoShoot;
 import frc.robot.commands.FollowTrajectory;
 import frc.robot.subsystems.ArmSubsystem;
@@ -21,16 +23,18 @@ public class TwoBall extends SequentialCommandGroup {
 
   public TwoBall(final DriveSubsystem driveSubsystem, IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem, ArmSubsystem armSubsystem) {
     super(
+      
+      new FollowTrajectory(driveSubsystem, Trajectories.twoBall.toSecondBall).withTimeout(3),
 
-      new AutoDropArm(armSubsystem).withTimeout(0.25),
-
-      new ParallelDeadlineGroup(
-        new FollowTrajectory(driveSubsystem, Trajectories.twoBall.toSecondBall),
-        new AutoIntake(intakeSubsystem),
-        new AutoMoveElevatorUp(shooterSubsystem) // TODO: test to make sure ball does not pop out of shooter
+      new ParallelCommandGroup(
+        new AutoDropArm(armSubsystem).withTimeout(0.3),
+        new AutoIntake(intakeSubsystem).withTimeout(2)
       ),
 
-      new AutoShoot(shooterSubsystem).withTimeout(3)
+      new AutoMoveElevatorDown(shooterSubsystem).withTimeout(0.3),
+      
+      new AutoShoot(shooterSubsystem).withTimeout(2)
+
     );
   }
 }

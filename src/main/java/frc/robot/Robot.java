@@ -6,13 +6,18 @@ package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.ShooterHoodConstants;
+import frc.robot.commands.Autonomous.ThreeBall;
+import frc.robot.commands.Autonomous.TwoBall;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
@@ -49,6 +54,8 @@ public class Robot extends TimedRobot {
 
   private static final WPI_TalonFX intakeArmMotor = RobotMap.intakeArmMotor;
 
+  SendableChooser<Command> m_chooser = new SendableChooser<>();
+  
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -73,6 +80,8 @@ public class Robot extends TimedRobot {
     rightShooterMotor.configFactoryDefault();
     hoodMotor.configFactoryDefault();
     intakeArmMotor.configFactoryDefault();
+
+    m_robotContainer.climbSubsystem.moveServosIn();
 
     leftBackMotor.config_kF(0, DriveConstants.F, 10);
     leftBackMotor.config_kP(0, DriveConstants.P, 10);
@@ -113,6 +122,15 @@ public class Robot extends TimedRobot {
     hoodMotor.config_kP(0, ShooterHoodConstants.P, 10);
     hoodMotor.config_kI(0, ShooterHoodConstants.I, 10);
     hoodMotor.config_kD(0, ShooterHoodConstants.D, 10);
+
+    m_chooser.addOption("2 Ball", new TwoBall(driveSubsystem, intakeSubsystem, shooterSubsystem, armSubsystem));
+    m_chooser.addOption("3 Ball", new ThreeBall(driveSubsystem, intakeSubsystem, shooterSubsystem, armSubsystem, limelightSubsystem));
+
+    UsbCamera camera = CameraServer.startAutomaticCapture();
+    camera.setResolution(240, 180);
+    camera.setFPS(8);
+
+    SmartDashboard.putData(m_chooser);
   }
 
   /**
@@ -130,11 +148,19 @@ public class Robot extends TimedRobot {
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
 
+    SmartDashboard.putNumber("Left Back F500 Temp C", leftBackMotor.getTemperature());
+    SmartDashboard.putNumber("Left Front F500 Temp C", leftFrontMotor.getTemperature());
+    SmartDashboard.putNumber("Right Front F500 Temp C", rightFrontMotor.getTemperature());
+    SmartDashboard.putNumber("Right Back F500 Temp C", rightBackMotor.getTemperature());
+
+    /*
     SmartDashboard.putNumber("Hood MPS", shooterSubsystem.getHoodVelocityMetersPerSecond());
     SmartDashboard.putNumber("Left Shooter MPS", shooterSubsystem.getLeftEncoderVelocityMetersPerSecond());
-    SmartDashboard.putNumber("Right Shooter MPS", shooterSubsystem.getRightEncoderVelocityMetersPerSecond());
+    SmartDashboard.putNumber("Right Shooter MPS", shooterSubsystem.getRightEncoderVelocityMetersPerSecond());*/
 
-    SmartDashboard.putNumber("Distance", LimelightSubsystem.getHorizontalDistance());
+    SmartDashboard.putBoolean("WITHIN 8 TO 14.5 FEET?", limelightSubsystem.isWithinDistance());
+
+    SmartDashboard.putNumber("LIMELIGHT OFFSET", limelightSubsystem.getLimelightX());
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
@@ -147,7 +173,7 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    m_autonomousCommand = m_chooser.getSelected();
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {

@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import frc.robot.Constants.OIConstants;
+import frc.robot.commands.AutoAlignShooter;
 import frc.robot.commands.AutoDropArm;
 import frc.robot.commands.JoystickDrive;
 import frc.robot.commands.MoveArm;
@@ -77,9 +78,9 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    /*new JoystickButton(manipulatorController, Button.kY.value).whenPressed(
-      new AutoDropArm(armSubsystem).withTimeout(0.25)
-    );*/
+    new JoystickButton(manipulatorController, Button.kStart.value).whenPressed(
+      new AutoAlignShooter(driveSubsystem)
+    );
   }
 
   /**

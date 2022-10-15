@@ -7,6 +7,10 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
+import frc.robot.RobotMap;
+
+import com.ctre.phoenix.sensors.Pigeon2;
+
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.ArmSubsystem;
@@ -16,6 +20,9 @@ public class MoveArm extends CommandBase {
     private final XboxController manipulatorController = RobotContainer.manipulatorController;
 
     public static int wrist_motion_state = 0;
+    public double arm_pitch_readout;
+
+    private final Pigeon2 imu = RobotMap.intakeIMU;
 
     public MoveArm(ArmSubsystem arm) {
         armSubsystem = arm;
@@ -28,18 +35,68 @@ public class MoveArm extends CommandBase {
 
     @Override
     public void execute() {
+        arm_pitch_readout = imu.getPitch();
+        //System.out.println(arm_pitch_readout);
+
         // move arm up, engage PID
         boolean b = manipulatorController.getBButtonPressed();
 
         // move arm down, no PID
         boolean y = manipulatorController.getYButtonPressed();
 
-        if (b) {
-            armSubsystem.moveArmUp();
-        } 
+        /*if (b) {
+            armSubsystem.moveArmToPosition(Constants.ArmConstants.UP_POSITION, arm_pitch_readout);
+        }
         
         if (y) {
             armSubsystem.stop();
+        }*/
+
+        switch(wrist_motion_state) {
+            case 0: // manual moving with stick
+                armSubsystem.setArmPower(0.0);
+                
+                if(armSubsystem.armPID.deadband_active) {
+                    wrist_motion_state = 0;
+                }
+                // if y pressed, set to ground (move down)
+                if (y) {
+                    wrist_motion_state = 1;
+                }
+                // if b pressed, set to home (move up)
+                if (b) {
+                    wrist_motion_state = 2;
+                } 
+                
+                /*else if (armSubsystem.armPID.deadband_active) {
+                    wrist_motion_state = 0;
+                }*/
+                break;
+            case 1:
+            // ground (y button)
+                armSubsystem.stop();
+                /*if(armSubsystem.armPID.deadband_active) {
+                    wrist_motion_state = 0;
+                }*/
+                
+                // if b button pressed, override Y Button
+                if (b) {
+                    wrist_motion_state = 2;
+                }
+                break;
+            case 2:
+            // home (b button)
+                armSubsystem.moveArmUp(arm_pitch_readout);
+                if(armSubsystem.armPID.deadband_active) {
+                    wrist_motion_state = 0;
+                }  
+                if (y) {
+                    wrist_motion_state = 1;
+                }              
+                break;
+            default:
+                wrist_motion_state = 0;
+                break;
         }
 
         // manual move arm with joystick

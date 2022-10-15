@@ -211,6 +211,8 @@ public class ShooterSubsystem extends SubsystemBase {
     leftShooterMotor.set(0);
     rightShooterMotor.set(0);
     hoodMotor.set(0);
+    frontElevatorMotor.set(0);
+    backElevatorMotor.set(0);
   }
 
   @Override

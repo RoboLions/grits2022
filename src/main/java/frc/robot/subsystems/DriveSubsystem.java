@@ -99,7 +99,7 @@ public class DriveSubsystem extends SubsystemBase {
       0.015, // Integral Gain 0.05=without weights 0.015= with weights
       0.0, // Derivative Gain -0.0008 =without weights, with weights
       2, // Cage Limit degrees/sec 2=without weights, with weights
-      0.0, // Deadband
+      2, // Deadband
       0.4, // MaxOutput Degrees/sec 
       true, //enableCage
       false //enableDeadband

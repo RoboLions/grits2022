@@ -28,14 +28,14 @@ public class ArmSubsystem extends SubsystemBase {
   private final WPI_TalonFX armMotor = RobotMap.intakeArmMotor;
   public RoboLionsPID armPID = new RoboLionsPID();
   private final Pigeon2 imu = RobotMap.intakeIMU;
-  public static double MAX_ARM_POWER = 0.16;
+  public static double MAX_ARM_POWER = 0.19;
   public static double arm_cmd;
 
   public double arm_pitch_readout = 0;
 
   public ArmSubsystem() {
-    armMotor.setNeutralMode(NeutralMode.Brake);
-    armPID.initialize2( 0.2, // Proportional Gain 0.02
+    armMotor.setNeutralMode(NeutralMode.Coast);
+    armPID.initialize2( 0.01, // Proportional Gain 0.02
                         0.0, // Integral Gain .311
                         0.0, // Derivative Gain
                         10, // Cage Limit
@@ -46,10 +46,9 @@ public class ArmSubsystem extends SubsystemBase {
     );
   }
 
-  public void moveArmToPosition(double target_pitch) {
-    arm_pitch_readout = getPitch();
+  public void moveArmToPosition(double target_pitch, double arm_pitch_readout) {
     
-    double arm_cmd = -armPID.execute((double)target_pitch, (double)arm_pitch_readout);
+    double arm_cmd = armPID.execute(target_pitch, arm_pitch_readout);
     // add hard deadband to arm so we don't break it
     if(arm_cmd > MAX_ARM_POWER) {
         arm_cmd = MAX_ARM_POWER;
@@ -57,13 +56,13 @@ public class ArmSubsystem extends SubsystemBase {
         arm_cmd = -MAX_ARM_POWER;
     }
     
-    System.out.println(target_pitch + ", " + arm_pitch_readout + ", " + arm_cmd);
+    //System.out.println(target_pitch + ", " + arm_pitch_readout + ", " + arm_cmd);
     //System.out.println("Arm Cmd" + arm_cmd);
-    armMotor.set(arm_cmd);
+    armMotor.set(-arm_cmd);
   }
 
-  public void moveArmUp() {
-      moveArmToPosition(ArmConstants.UP_POSITION);
+  public void moveArmUp(double arm_pitch_readout) {
+    moveArmToPosition(ArmConstants.UP_POSITION, arm_pitch_readout);
   }
 
   public void moveArmDown() {

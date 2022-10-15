@@ -7,11 +7,11 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ShooterSubsystem;
 
-public class AutoMoveElevatorUp extends CommandBase {
+public class AutoMoveElevatorDown extends CommandBase {
   
   private final ShooterSubsystem shooterSubsystem;
 
-  public AutoMoveElevatorUp(ShooterSubsystem shooter) {
+  public AutoMoveElevatorDown(ShooterSubsystem shooter) {
     shooterSubsystem = shooter;
     addRequirements(shooterSubsystem);
   }
@@ -23,7 +23,7 @@ public class AutoMoveElevatorUp extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooterSubsystem.moveBeltUp();
+    shooterSubsystem.moveBeltDown();
   }
 
   // Called once the command ends or is interrupted.
