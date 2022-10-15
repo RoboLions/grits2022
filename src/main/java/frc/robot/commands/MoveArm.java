@@ -28,22 +28,29 @@ public class MoveArm extends CommandBase {
 
     @Override
     public void execute() {
-
-        double armPower = -(manipulatorController.getLeftY() / 3);
-
-        // move arm up
+        // move arm up, engage PID
         boolean b = manipulatorController.getBButtonPressed();
 
-        // move arm down
+        // move arm down, no PID
+        boolean y = manipulatorController.getYButtonPressed();
+
+        if (b) {
+            armSubsystem.moveArmUp();
+        } 
+        
+        if (y) {
+            armSubsystem.stop();
+        }
+
+        // manual move arm with joystick
+        /*double armPower = -(manipulatorController.getLeftY() / 3);
+
+        // move arm up, engage PID
+        boolean b = manipulatorController.getBButtonPressed();
+
+        // move arm down, 0 PID
         boolean y = manipulatorController.getYButtonPressed();
       
-        /*if (b) { 
-            armSubsystem.setArmPower(0.15);
-        } else if (y) {
-            armSubsystem.moveArmDown();
-        } else {
-            armSubsystem.stop();
-        }*/
         switch(wrist_motion_state) {
             case 0: // manual moving with stick
                 armSubsystem.setArmPower(armPower);
@@ -58,18 +65,11 @@ public class MoveArm extends CommandBase {
                 // if b pressed, move arm up
                 if (b) {
                     wrist_motion_state = 2;
-                } 
-                
-                /*else if (armSubsystem.armPID.deadband_active) {
-                    wrist_motion_state = 0;
-                }*/
+                }
                 break;
             case 1:
             // ground (y button)
                 armSubsystem.moveArmDown();
-                /*if(armSubsystem.armPID.deadband_active) {
-                    wrist_motion_state = 0;
-                }*/
                 
                 // if stick is full power, override Y button
                 if (armPower > 0.5 || armPower < -0.5) {
@@ -97,7 +97,7 @@ public class MoveArm extends CommandBase {
         if(Math.abs(armPower) > 0.6 ) { 
             // wakes up the arm from PID control and back to joystick control
             wrist_motion_state = 0;
-        }
+        }*/
     }
 
     @Override

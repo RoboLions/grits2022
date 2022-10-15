@@ -67,7 +67,8 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public void moveArmDown() {
-      moveArmToPosition(ArmConstants.DOWN_POSITION);
+      //moveArmToPosition(ArmConstants.DOWN_POSITION);
+      armMotor.set(-0.1);
   }
 
   public void setArmPower(double power) {
