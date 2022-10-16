@@ -26,9 +26,9 @@ public class IntakeSubsystem extends SubsystemBase {
   private static final WPI_TalonFX leftShooterMotor = RobotMap.leftShooterMotor;
   private static final WPI_TalonFX rightShooterMotor = RobotMap.rightShooterMotor;
 
-  public static final double LEFT_MOVE_BELT_UP_POWER = 0.5;
+  public static final double LEFT_MOVE_BELT_UP_POWER = 0.6;
   public static final double LEFT_MOVE_BELT_DOWN_POWER = -0.3;
-  public static final double RIGHT_MOVE_BELT_UP_POWER = -0.5;
+  public static final double RIGHT_MOVE_BELT_UP_POWER = -0.6;
   public static final double RIGHT_MOVE_BELT_DOWN_POWER = 0.3;
 
   public IntakeSubsystem() {
@@ -39,8 +39,8 @@ public class IntakeSubsystem extends SubsystemBase {
     intakeMotor.set(IN_POWER);
     frontElevatorMotor.set(LEFT_MOVE_BELT_UP_POWER);
     backElevatorMotor.set(RIGHT_MOVE_BELT_UP_POWER);
-    leftShooterMotor.set(0.1);
-    rightShooterMotor.set(-0.1);
+    //leftShooterMotor.set(0.1);
+    //rightShooterMotor.set(-0.1);
   }
 
   public void outtakeBalls() {

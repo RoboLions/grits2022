@@ -158,6 +158,11 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Left Shooter MPS", shooterSubsystem.getLeftEncoderVelocityMetersPerSecond());
     SmartDashboard.putNumber("Right Shooter MPS", shooterSubsystem.getRightEncoderVelocityMetersPerSecond());*/
 
+    /*SmartDashboard.putNumber("Back Left Drive MPS", driveSubsystem.getBackLeftEncoderVelocityMetersPerSecond());
+    SmartDashboard.putNumber("Back Right Drive MPS", driveSubsystem.getBackRightEncoderVelocityMetersPerSecond());
+    SmartDashboard.putNumber("Front Left Drive MPS", driveSubsystem.getFrontLeftEncoderVelocityMetersPerSecond());
+    SmartDashboard.putNumber("Front Right Drive MPS", driveSubsystem.getFrontRightEncoderVelocityMetersPerSecond());*/
+
     SmartDashboard.putBoolean("WITHIN 8 TO 14.5 FEET?", limelightSubsystem.isWithinDistance());
 
     SmartDashboard.putNumber("LIMELIGHT OFFSET", limelightSubsystem.getLimelightX());

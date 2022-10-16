@@ -173,6 +173,8 @@ public class ShooterSubsystem extends SubsystemBase {
   public void moveBeltDown() {
     frontElevatorMotor.set(LEFT_MOVE_BELT_DOWN_POWER);
     backElevatorMotor.set(RIGHT_MOVE_BELT_DOWN_POWER);
+    leftShooterMotor.set(0.25);
+    rightShooterMotor.set(-0.25);
   }
 
   public void setHoodSpeed(double hoodSpeed) {  

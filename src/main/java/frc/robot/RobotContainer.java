@@ -78,9 +78,9 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    new JoystickButton(manipulatorController, Button.kStart.value).whenPressed(
+    /*new JoystickButton(manipulatorController, Button.kStart.value).whenPressed(
       new AutoAlignShooter(driveSubsystem)
-    );
+    );*/
   }
 
   /**

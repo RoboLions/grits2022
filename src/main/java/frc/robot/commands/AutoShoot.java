@@ -50,7 +50,7 @@ public class AutoShoot extends CommandBase {
 
     if (counter > 15) {
       shooterSubsystem.moveBeltUp();
-      System.out.println("TIME WHEN SHOT: " + autoShooterTimer.get());
+      //System.out.println("TIME WHEN SHOT: " + autoShooterTimer.get());
     } else {
       shooterSubsystem.stopBelt();
     } 

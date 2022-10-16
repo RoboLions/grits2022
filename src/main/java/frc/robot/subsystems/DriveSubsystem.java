@@ -45,11 +45,13 @@ public class DriveSubsystem extends SubsystemBase {
   static double lastRotateVelocity = 0;
 
   public DriveSubsystem() {
-    leftFrontMotor.set(ControlMode.Follower, leftBackMotor.getDeviceID());
-    rightFrontMotor.set(ControlMode.Follower, rightBackMotor.getDeviceID());
+    //leftFrontMotor.set(ControlMode.Follower, leftBackMotor.getDeviceID());
+    //rightFrontMotor.set(ControlMode.Follower, rightBackMotor.getDeviceID());
 
     leftBackMotor.setNeutralMode(NeutralMode.Coast);
     rightBackMotor.setNeutralMode(NeutralMode.Coast);
+    leftFrontMotor.setNeutralMode(NeutralMode.Coast);
+    rightFrontMotor.setNeutralMode(NeutralMode.Coast);
 
     rightBackMotor.setInverted(false);
     rightFrontMotor.setInverted(false);
@@ -224,6 +226,8 @@ public class DriveSubsystem extends SubsystemBase {
     // passing in ticks/100 ms by multiplying (tick seconds / meter ms) * (meter/second) * 100
     leftBackMotor.set(TalonFXControlMode.Velocity, driveSpeedPer100MS*left_speed_cmd); 
     rightBackMotor.set(TalonFXControlMode.Velocity, driveSpeedPer100MS*right_speed_cmd); 
+    leftFrontMotor.set(TalonFXControlMode.Velocity, driveSpeedPer100MS*left_speed_cmd); 
+    rightFrontMotor.set(TalonFXControlMode.Velocity, driveSpeedPer100MS*right_speed_cmd); 
 
     // actual speed command passed 
     /*left_speed_cmd = leftSpeed; // m/s
@@ -249,6 +253,8 @@ public class DriveSubsystem extends SubsystemBase {
     // passing in ticks/100 ms by multiplying (tick seconds / meter ms) * (meter/second) * 100
     leftBackMotor.set(TalonFXControlMode.Velocity, driveSpeedPer100MS*left_speed_cmd); 
     rightBackMotor.set(TalonFXControlMode.Velocity, driveSpeedPer100MS*right_speed_cmd); 
+    leftFrontMotor.set(TalonFXControlMode.Velocity, driveSpeedPer100MS*left_speed_cmd); 
+    rightFrontMotor.set(TalonFXControlMode.Velocity, driveSpeedPer100MS*right_speed_cmd); 
   }
 
   public void resetEncoders() {
@@ -315,6 +321,26 @@ public class DriveSubsystem extends SubsystemBase {
     // the opposite side
     backRightVelocityMPS = backRightVelocityMPS * DriveConstants.METERS_PER_TICKS;
     return (backRightVelocityMPS);
+  }
+
+  public double getFrontRightEncoderVelocityMetersPerSecond() {
+    // getQuadVelocity is in 100 ms so we have to divide it by 10 to get seconds
+    double frontRightVelocityMPS = (rightFrontMotor.getSelectedSensorVelocity() * 10); // /10
+    // since getQuadVelocity is in encoder ticks, we have to convert it to meters
+    // Need to have a negative for right velocity since the motors are reversed on
+    // the opposite side
+    frontRightVelocityMPS = frontRightVelocityMPS * DriveConstants.METERS_PER_TICKS;
+    return (frontRightVelocityMPS);
+  }
+
+  public double getFrontLeftEncoderVelocityMetersPerSecond() {
+    // getQuadVelocity is in 100 ms so we have to divide it by 10 to get seconds
+    double frontLeftVelocityMPS = (leftFrontMotor.getSelectedSensorVelocity() * 10); // /10
+    // since getQuadVelocity is in encoder ticks, we have to convert it to meters
+    // Need to have a negative for right velocity since the motors are reversed on
+    // the opposite side
+    frontLeftVelocityMPS = frontLeftVelocityMPS * DriveConstants.METERS_PER_TICKS;
+    return (frontLeftVelocityMPS);
   }
 
   public double getAverageEncoderVelocityMetersPerSecond() {

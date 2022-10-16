@@ -20,39 +20,40 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
+// place 55 inches away from first ball
 public class ThreeBall extends SequentialCommandGroup {
 
   public ThreeBall(final DriveSubsystem driveSubsystem, IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem, ArmSubsystem armSubsystem, LimelightSubsystem limelightSubsystem) { 
     super(
 
-      new FollowTrajectory(driveSubsystem, Trajectories.twoBall.toSecondBall).withTimeout(3),
+      new FollowTrajectory(driveSubsystem, Trajectories.twoBall.toSecondBall).withTimeout(1.75),
 
       new ParallelCommandGroup(
         new AutoDropArm(armSubsystem).withTimeout(0.3),
-        new AutoIntake(intakeSubsystem).withTimeout(2)
+        new AutoIntake(intakeSubsystem).withTimeout(1.4)
       ),
 
       new ParallelCommandGroup(
         new AutoMoveElevatorDown(shooterSubsystem).withTimeout(0.3),
-        new AutoAlignShooter(driveSubsystem).withTimeout(1)
+        new AutoAlignShooter(driveSubsystem).withTimeout(0.3)
       ),
       
       new AutoShoot(shooterSubsystem).withTimeout(2),
 
       // end of 2 ball, begin 3 ball
-      new FollowTrajectory(driveSubsystem, Trajectories.threeBall.toThirdBallPartOne).withTimeout(7),
+      new FollowTrajectory(driveSubsystem, Trajectories.threeBall.toThirdBallPartOne).withTimeout(4),
 
       new ParallelCommandGroup(
-        new FollowTrajectory(driveSubsystem, Trajectories.threeBall.toThirdBallPartTwo).withTimeout(4),
-        new AutoIntake(intakeSubsystem).withTimeout(4)
+        new FollowTrajectory(driveSubsystem, Trajectories.threeBall.toThirdBallPartTwo).withTimeout(2.3),
+        new AutoIntake(intakeSubsystem).withTimeout(2.3)
       ),
 
       new ParallelCommandGroup(
         new AutoMoveElevatorDown(shooterSubsystem).withTimeout(0.3),
-        new AutoAlignShooter(driveSubsystem).withTimeout(3)
+        new AutoAlignShooter(driveSubsystem).withTimeout(1.25)  // TODO: FIX ALIGN SHOOTER SOMEHOW
       ),
       
-      new AutoShoot(shooterSubsystem).withTimeout(2)
+      new AutoShoot(shooterSubsystem).withTimeout(1.6)
 
       /*new AutoDropArm(armSubsystem),
 

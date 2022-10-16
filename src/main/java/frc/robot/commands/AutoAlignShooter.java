@@ -28,11 +28,12 @@ public class AutoAlignShooter extends CommandBase {
   @Override
   public void execute() {
     double offsetX = LimelightSubsystem.getLimelightX();
+    System.out.println("Offset X: " + offsetX);
 
     double setPoint = 0.0; // final point in degrees
     rotate = (-1) * driveSubsystem.limelightRotationPID.execute(setPoint, offsetX);
   
-    System.out.println(rotate); // rotate should be positive
+    System.out.println("Rotate: " + rotate); // rotate should be positive
     driveSubsystem.driveWithRotation(0, -rotate);
   }
 

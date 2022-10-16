@@ -81,11 +81,6 @@ public class ShootShooter extends CommandBase {
     } else if (manipulatorController.getLeftBumper()) { 
       shooterSubsystem.setShooterMPS(40); // 15
       shooterSubsystem.setHoodMPS(20); // 10
-    } 
-
-    // REVERSE SHOOTER
-    else if (manipulatorController.getRightBumper()) {
-      shooterSubsystem.setShooterMPS(-3);
     } else {
       shooterSubsystem.stopShooter();
     }
@@ -101,9 +96,9 @@ public class ShootShooter extends CommandBase {
     // elevator only goes up when the error is small enough for x number of seconds
     if (manipulatorController.getXButton() && counter > 15) {
       shooterSubsystem.moveBeltUp();
-      System.out.println("TIME WHEN SHOT: " + shooterTimer.get());
+      //System.out.println("TIME WHEN SHOT: " + shooterTimer.get());
     } 
-    // MANUAL MOVE ELEVATOR DOWN 
+    // MANUAL MOVE ELEVATOR DOWN AND REVERSE SHOOTER
     else if (manipulatorController.getAButton()) {
       shooterSubsystem.moveBeltDown();
     } else {
