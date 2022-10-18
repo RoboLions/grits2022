@@ -121,10 +121,10 @@ public class LimelightSubsystem extends SubsystemBase {
     return distance; // meters
   }
   /*************************************************************************
-  * Boolean for if we are within 2.1336 to 4.4196 meters of the hub
+  * Boolean for if we are within 1.7 to 5 meters of the hub
   *************************************************************************/
   public static boolean isWithinDistance() {
-    return (getHorizontalDistance() <= 4.4196 && getHorizontalDistance() >= 2.1336);
+    return (getHorizontalDistance() <= 5 && getHorizontalDistance() >= 1.7);
   }
 
   @Override

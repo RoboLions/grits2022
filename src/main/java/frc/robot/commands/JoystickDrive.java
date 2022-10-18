@@ -36,13 +36,14 @@ public class JoystickDrive extends CommandBase {
       throttle = 0;
     } else {
       // meters per sec
-      throttle = throttle * 0.35;
+      throttle = (Math.tan(.465 * (throttle * Math.PI)) / 1);
+      // throttle = throttle * 0.35;
     }
 
     if ((rotate > 0 && rotate < 0.25) || (rotate < 0 && rotate > -0.25)) {
       rotate = 0;
     } else {
-      rotate = rotate * 0.25;
+      rotate = rotate; // * 0.25;
     }
 
     // slow mode

@@ -42,6 +42,11 @@ public class DriveSubsystem extends SubsystemBase {
   public double left_speed_feedback;
   public double right_speed_feedback;
 
+  // public double leftSent;
+  // public double rightSent;
+
+  // public double minDriveSpeed = 2;
+
   static double lastLinearVelocity = 0;
   static double lastRotateVelocity = 0;
 
@@ -214,22 +219,41 @@ public class DriveSubsystem extends SubsystemBase {
 
   public void straightDrive(double leftSpeed, double rightSpeed) {
 
-    leftBackMotor.set(leftSpeed);
-    rightBackMotor.set(rightSpeed);
+    // leftBackMotor.set(leftSpeed);
+    // rightBackMotor.set(rightSpeed);
 
-    /*left_speed_feedback = getBackLeftEncoderVelocityMetersPerSecond();
+    left_speed_feedback = getBackLeftEncoderVelocityMetersPerSecond();
     right_speed_feedback = getBackRightEncoderVelocityMetersPerSecond();
 
     // actual speed command passed 
     left_speed_cmd = leftSpeed; // m/s
     right_speed_cmd = rightSpeed; // m/s
 
-    // ticks/meter * 1 second / 1000 ms * 100 = tick seconds / meter ms
+    // tick seconds / meter ms = ticks/meter * 1 second / 1000 ms * 100
     double driveSpeedPer100MS = (DriveConstants.TICKS_PER_METER * (1.0/1000.0) * 100.0); //tick second
 
+    // leftSent = driveSpeedPer100MS*left_speed_cmd;
+    // rightSent = driveSpeedPer100MS*right_speed_cmd;
+
+    // // if the value being sent is lower than whatever value, then stop
+    // if (leftSent < minDriveSpeed) {
+    //   leftSent = 0;
+    // } else {
+    //   leftSent = leftSent;
+    // }
+
+    // if (rightSent < minDriveSpeed) {
+    //   rightSent = 0;
+    // } else {
+    //   rightSent = rightSent;
+    // }
+
     // passing in ticks/100 ms by multiplying (tick seconds / meter ms) * (meter/second) * 100
+    // leftBackMotor.set(TalonFXControlMode.Velocity, leftSent); 
+    // rightBackMotor.set(TalonFXControlMode.Velocity, rightSent);
     leftBackMotor.set(TalonFXControlMode.Velocity, driveSpeedPer100MS*left_speed_cmd); 
-    rightBackMotor.set(TalonFXControlMode.Velocity, driveSpeedPer100MS*right_speed_cmd); */
+    rightBackMotor.set(TalonFXControlMode.Velocity, driveSpeedPer100MS*right_speed_cmd);
+
     /*leftFrontMotor.set(TalonFXControlMode.Velocity, driveSpeedPer100MS*left_speed_cmd); 
     rightFrontMotor.set(TalonFXControlMode.Velocity, driveSpeedPer100MS*right_speed_cmd);*/
 
