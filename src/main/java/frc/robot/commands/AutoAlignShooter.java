@@ -32,6 +32,7 @@ public class AutoAlignShooter extends CommandBase {
 
     double setPoint = 0.0; // final point in degrees
     rotate = (-1) * driveSubsystem.limelightRotationPID.execute(setPoint, offsetX);
+    // TODO: figure out why rotate is negated here and then negated again when being sent using driveWithRotation?
   
     System.out.println("Rotate: " + rotate); // rotate should be positive
     driveSubsystem.driveWithRotation(0, -rotate);

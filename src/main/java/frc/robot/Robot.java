@@ -152,6 +152,10 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Left Front F500 Temp C", leftFrontMotor.getTemperature());
     SmartDashboard.putNumber("Right Front F500 Temp C", rightFrontMotor.getTemperature());
     SmartDashboard.putNumber("Right Back F500 Temp C", rightBackMotor.getTemperature());
+    SmartDashboard.putNumber("Intake Temp C", intakeArmMotor.getTemperature());
+    SmartDashboard.putNumber("Hood Temp C", hoodMotor.getTemperature());
+    SmartDashboard.putNumber("Left Shooter Temp C", leftShooterMotor.getTemperature());
+    SmartDashboard.putNumber("Right Shooter Temp C", rightShooterMotor.getTemperature());
 
     /*
     SmartDashboard.putNumber("Hood MPS", shooterSubsystem.getHoodVelocityMetersPerSecond());
@@ -164,8 +168,8 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Front Right Drive MPS", driveSubsystem.getFrontRightEncoderVelocityMetersPerSecond());*/
 
     SmartDashboard.putBoolean("WITHIN 8 TO 14.5 FEET?", limelightSubsystem.isWithinDistance());
-
     SmartDashboard.putNumber("LIMELIGHT OFFSET", limelightSubsystem.getLimelightX());
+    SmartDashboard.putNumber("Horizontal Distance", limelightSubsystem.getHorizontalDistance());
   }
 
   /** This function is called once each time the robot enters Disabled mode. */

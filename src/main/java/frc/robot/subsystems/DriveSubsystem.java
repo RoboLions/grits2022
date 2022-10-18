@@ -45,8 +45,8 @@ public class DriveSubsystem extends SubsystemBase {
   static double lastRotateVelocity = 0;
 
   public DriveSubsystem() {
-    //leftFrontMotor.set(ControlMode.Follower, leftBackMotor.getDeviceID());
-    //rightFrontMotor.set(ControlMode.Follower, rightBackMotor.getDeviceID());
+    leftFrontMotor.set(ControlMode.Follower, leftBackMotor.getDeviceID());
+    rightFrontMotor.set(ControlMode.Follower, rightBackMotor.getDeviceID());
 
     leftBackMotor.setNeutralMode(NeutralMode.Coast);
     rightBackMotor.setNeutralMode(NeutralMode.Coast);
@@ -213,7 +213,10 @@ public class DriveSubsystem extends SubsystemBase {
 
   public void straightDrive(double leftSpeed, double rightSpeed) {
 
-    left_speed_feedback = getBackLeftEncoderVelocityMetersPerSecond();
+    leftBackMotor.set(leftSpeed);
+    rightBackMotor.set(rightSpeed);
+
+    /*left_speed_feedback = getBackLeftEncoderVelocityMetersPerSecond();
     right_speed_feedback = getBackRightEncoderVelocityMetersPerSecond();
 
     // actual speed command passed 
@@ -221,13 +224,13 @@ public class DriveSubsystem extends SubsystemBase {
     right_speed_cmd = rightSpeed; // m/s
 
     // ticks/meter * 1 second / 1000 ms * 100 = tick seconds / meter ms
-    double driveSpeedPer100MS = (DriveConstants.TICKS_PER_METER * (1.0/1000.0) * 100.0); //tick second/\
+    double driveSpeedPer100MS = (DriveConstants.TICKS_PER_METER * (1.0/1000.0) * 100.0); //tick second
 
     // passing in ticks/100 ms by multiplying (tick seconds / meter ms) * (meter/second) * 100
     leftBackMotor.set(TalonFXControlMode.Velocity, driveSpeedPer100MS*left_speed_cmd); 
-    rightBackMotor.set(TalonFXControlMode.Velocity, driveSpeedPer100MS*right_speed_cmd); 
-    leftFrontMotor.set(TalonFXControlMode.Velocity, driveSpeedPer100MS*left_speed_cmd); 
-    rightFrontMotor.set(TalonFXControlMode.Velocity, driveSpeedPer100MS*right_speed_cmd); 
+    rightBackMotor.set(TalonFXControlMode.Velocity, driveSpeedPer100MS*right_speed_cmd); */
+    /*leftFrontMotor.set(TalonFXControlMode.Velocity, driveSpeedPer100MS*left_speed_cmd); 
+    rightFrontMotor.set(TalonFXControlMode.Velocity, driveSpeedPer100MS*right_speed_cmd);*/
 
     // actual speed command passed 
     /*left_speed_cmd = leftSpeed; // m/s
@@ -248,13 +251,13 @@ public class DriveSubsystem extends SubsystemBase {
     right_speed_cmd = rightWheelSpeed; // m/s
 
     // ticks/meter * 1 second / 1000 ms * 100 = tick seconds / meter ms
-    double driveSpeedPer100MS = (DriveConstants.TICKS_PER_METER * (1.0/1000.0) * 100.0); //tick second/\
+    double driveSpeedPer100MS = (DriveConstants.TICKS_PER_METER * (1.0/1000.0) * 100.0); //tick second
 
     // passing in ticks/100 ms by multiplying (tick seconds / meter ms) * (meter/second) * 100
     leftBackMotor.set(TalonFXControlMode.Velocity, driveSpeedPer100MS*left_speed_cmd); 
     rightBackMotor.set(TalonFXControlMode.Velocity, driveSpeedPer100MS*right_speed_cmd); 
-    leftFrontMotor.set(TalonFXControlMode.Velocity, driveSpeedPer100MS*left_speed_cmd); 
-    rightFrontMotor.set(TalonFXControlMode.Velocity, driveSpeedPer100MS*right_speed_cmd); 
+    /*leftFrontMotor.set(TalonFXControlMode.Velocity, driveSpeedPer100MS*left_speed_cmd); 
+    rightFrontMotor.set(TalonFXControlMode.Velocity, driveSpeedPer100MS*right_speed_cmd);*/
   }
 
   public void resetEncoders() {
@@ -371,7 +374,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   public void stop() {
     leftBackMotor.set(0);
-    leftFrontMotor.set(0);
+    rightBackMotor.set(0); // TODO: check if changing this fixes the follower issue
   }
 
   // Returns the turn rate of the robot

@@ -56,8 +56,14 @@ public class ShootShooter extends CommandBase {
     initialVelocity = Math.sqrt((Math.pow(xVelocity, 2)) + Math.pow(yVelocity, 2)); // meters per second
     RPMofFront = (initialVelocity * 60) / (2 * Math.PI * .0508); //RPM, .0508meters is radius of the wheel
     RPMofHood = (initialVelocity * 60) / (2 * Math.PI * .0254); //RPM, .0254meters is radius of the wheel
-    shooterSpeed = (0.471 * (Math.pow(x, 2))) + (-0.132 * x) + 19.4;
-    hoodSpeed = (1.55 * (Math.pow(x, 2))) + (-4.65 * x) + 16.3;
+
+    double hoodSpeed = (19.6) - (10.4 * x) + (3.44 * x * x);
+    double shooterSpeed = (2.67 * x) + 15.7;
+
+    // shooterSpeed = (0.471 * (Math.pow(x, 2))) + (-0.132 * x) + 19.4; // shooter equation
+    // hoodSpeed = (1.55 * (Math.pow(x, 2))) + (-4.65 * x) + 16.3; // shooter equation
+    //shooterSpeed = 27.5; // set values for when testing shooter
+    //hoodSpeed = 52; // set values for when testing shooter
 
     //System.out.println(initialVelocity); // testing purposes
     // System.out.println("shooter error: " + shooterSubsystem.getShooterError()); // testing purposes
@@ -94,7 +100,7 @@ public class ShootShooter extends CommandBase {
     }*/
 
     // elevator only goes up when the error is small enough for x number of seconds
-    if (manipulatorController.getXButton() && counter > 15) {
+    if (manipulatorController.getXButton() && counter > 20) {
       shooterSubsystem.moveBeltUp();
       //System.out.println("TIME WHEN SHOT: " + shooterTimer.get());
     } 

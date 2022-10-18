@@ -36,19 +36,19 @@ public class JoystickDrive extends CommandBase {
       throttle = 0;
     } else {
       // meters per sec
-      throttle = (Math.tan(.465 * (throttle * Math.PI)) / 1);
+      throttle = throttle * 0.35;
     }
 
     if ((rotate > 0 && rotate < 0.25) || (rotate < 0 && rotate > -0.25)) {
       rotate = 0;
     } else {
-      rotate = rotate;
+      rotate = rotate * 0.25;
     }
 
     // slow mode
     if (driverController.getXButton()) {
-      throttle = Math.signum(throttle) * 0.35;
-      rotate = Math.signum(rotate) * 0.5;
+      throttle = Math.signum(throttle) * 0.15;
+      rotate = Math.signum(rotate) * 0.15;
     }
 
     double offsetX = LimelightSubsystem.getLimelightX();

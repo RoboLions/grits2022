@@ -48,7 +48,7 @@ public class AutoShoot extends CommandBase {
       //shooterTimer.start(); // set time to 0 when error > 0.5 for both hood and shooter
     }
 
-    if (counter > 15) {
+    if (counter > 20) {
       shooterSubsystem.moveBeltUp();
       //System.out.println("TIME WHEN SHOT: " + autoShooterTimer.get());
     } else {
