@@ -52,6 +52,44 @@ public class Trajectories {
         return toThirdBallPartTwo;
     }
 
+    public static Trajectory getToFourthBallPartOne() {
+        String trajectoryJSON = "output/FourBallPartOne.wpilib.json";
+        Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
+        Trajectory toFourBallPartOne = new Trajectory();
+        try {
+            toFourBallPartOne = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+        } catch (IOException ex) {
+            DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
+        }
+        return toFourBallPartOne;
+    }
+
+    public static Trajectory getToFourthBallPartTwo() {
+        String trajectoryJSON = "output/FourBallPartTwo.wpilib.json";
+        Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
+        Trajectory toFourBallPartTwo = new Trajectory();
+        try {
+            toFourBallPartTwo = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+        } catch (IOException ex) {
+            DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
+        }
+        return toFourBallPartTwo;
+    }
+
+    public static Trajectory getToFourthBallPartThree() {
+        String trajectoryJSON = "output/FourBallPartThree.wpilib.json";
+        Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
+        Trajectory toFourBallPartThree = new Trajectory();
+        try {
+            toFourBallPartThree = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+        } catch (IOException ex) {
+            DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
+        }
+        return toFourBallPartThree;
+    }
+
+
+
     public static class twoBall {
         public static final Trajectory toSecondBall = getToSecondBall();
     }
@@ -62,6 +100,8 @@ public class Trajectories {
     }
 
     public static class fourBall {
-        
+        public static final Trajectory toFourthBallPartOne = getToFourthBallPartOne();
+        public static final Trajectory toFourthBallPartTwo = getToFourthBallPartTwo();
+        public static final Trajectory toFourthBallPartThree = getToFourthBallPartThree();
     }
 }
