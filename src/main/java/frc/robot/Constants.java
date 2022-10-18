@@ -75,6 +75,10 @@ public final class Constants {
         public static final double DRIVER_CAMERA = 1;
         public static final double LLAIMING = 0.035;
         public static final double MOTORGAIN = 0.75;
+
+        public static final double P = 0.007; // previous value = 0.02
+        public static final double I = 0.0003; // previous value = 0.015
+        public static final double D = 0.0; // previous value = 0.0
     }
 
     public static final class ArmConstants {

@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.LimelightConstants;
 import frc.robot.lib.RoboLionsPID;
 
 public class DriveSubsystem extends SubsystemBase {
@@ -97,9 +98,9 @@ public class DriveSubsystem extends SubsystemBase {
     rightBackMotor.configAllowableClosedloopError(0, 0, 10);
 
     limelightRotationPID.initialize2(
-      0.02, // Proportional Gain 0.02=without weights, 0.03=with weights
-      0.015, // Integral Gain 0.05=without weights 0.015= with weights
-      0.0, // Derivative Gain -0.0008 =without weights, with weights
+      LimelightConstants.P, // Proportional Gain 0.02=without weights, 0.03=with weights
+      LimelightConstants.I, // Integral Gain 0.05=without weights 0.015= with weights
+      LimelightConstants.D, // Derivative Gain -0.0008 =without weights, with weights
       2, // Cage Limit degrees/sec 2=without weights, with weights
       2, // Deadband
       0.4, // MaxOutput Degrees/sec 
