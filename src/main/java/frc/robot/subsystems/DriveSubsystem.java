@@ -214,6 +214,7 @@ public class DriveSubsystem extends SubsystemBase {
       rightSpeed = (linearTravelSpeed - rotateSpeed);
     }
 
+    System.out.println("LL ALIGN leftSpeed: " + leftSpeed + ", rightSpeed: " + rightSpeed); 
     straightDrive(leftSpeed, rightSpeed);
   }
 
@@ -275,9 +276,10 @@ public class DriveSubsystem extends SubsystemBase {
     left_speed_cmd = leftWheelSpeed; // m/s
     right_speed_cmd = rightWheelSpeed; // m/s
 
+    System.out.println("TRAJECTORY left cmd: " + left_speed_cmd + ", right cmd: " + right_speed_cmd);
     // ticks/meter * 1 second / 1000 ms * 100 = tick seconds / meter ms
     double driveSpeedPer100MS = (DriveConstants.TICKS_PER_METER * (1.0/1000.0) * 100.0); //tick second
-
+    
     // passing in ticks/100 ms by multiplying (tick seconds / meter ms) * (meter/second) * 100
     leftBackMotor.set(TalonFXControlMode.Velocity, driveSpeedPer100MS*left_speed_cmd); 
     rightBackMotor.set(TalonFXControlMode.Velocity, driveSpeedPer100MS*right_speed_cmd); 

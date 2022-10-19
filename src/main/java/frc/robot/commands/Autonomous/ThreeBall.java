@@ -26,7 +26,7 @@ public class ThreeBall extends SequentialCommandGroup {
   public ThreeBall(final DriveSubsystem driveSubsystem, IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem, ArmSubsystem armSubsystem, LimelightSubsystem limelightSubsystem) { 
     super(
 
-      new FollowTrajectory(driveSubsystem, Trajectories.twoBall.toSecondBall).withTimeout(1.75),
+      new FollowTrajectory(driveSubsystem, Trajectories.terminalTwoBall.toSecondBall).withTimeout(1.75),
 
       new ParallelCommandGroup(
         new AutoDropArm(armSubsystem).withTimeout(0.3),
@@ -41,16 +41,16 @@ public class ThreeBall extends SequentialCommandGroup {
       new AutoShoot(shooterSubsystem).withTimeout(2),
 
       // end of 2 ball, begin 3 ball
-      new FollowTrajectory(driveSubsystem, Trajectories.threeBall.toThirdBallPartOne).withTimeout(4),
+      new FollowTrajectory(driveSubsystem, Trajectories.threeBall.toThirdBallPartOne).withTimeout(3.25),
 
       new ParallelCommandGroup(
         new FollowTrajectory(driveSubsystem, Trajectories.threeBall.toThirdBallPartTwo).withTimeout(2.3),
-        new AutoIntake(intakeSubsystem).withTimeout(2.3)
+        new AutoIntake(intakeSubsystem).withTimeout(2.5)
       ),
 
       new ParallelCommandGroup(
-        new AutoMoveElevatorDown(shooterSubsystem).withTimeout(0.3),
-        new AutoAlignShooter(driveSubsystem).withTimeout(1.25)  // TODO: FIX ALIGN SHOOTER SOMEHOW
+        new AutoMoveElevatorDown(shooterSubsystem).withTimeout(0.3)
+        //new AutoAlignShooter(driveSubsystem).withTimeout(1.25)  // TODO: FIX ALIGN SHOOTER SOMEHOW
       ),
       
       new AutoShoot(shooterSubsystem).withTimeout(1.6)

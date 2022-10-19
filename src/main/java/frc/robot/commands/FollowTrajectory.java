@@ -47,7 +47,7 @@ public class FollowTrajectory extends CommandBase {
     driveSubsystem.resetOdometry(m_trajectory.getInitialPose());
 
     // Run path following command, then stop at the end.
-    CommandScheduler.getInstance().schedule(ramseteCommand.andThen(() -> driveSubsystem.autoDrive(0, 0)));
+    CommandScheduler.getInstance().schedule(ramseteCommand.andThen(() -> driveSubsystem.autoDrive(0.0, 0.0)));
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -57,7 +57,8 @@ public class FollowTrajectory extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    driveSubsystem.autoDrive(0, 0);
+    driveSubsystem.autoDrive(0.0, 0.0);
+    System.out.println("FOLLOW TRAJECTORY ENDED");
   }
 
   // Returns true when the command should end.

@@ -15,7 +15,7 @@ import frc.robot.commands.MoveArm;
 import frc.robot.commands.MoveClimb;
 import frc.robot.commands.RollIntake;
 import frc.robot.commands.ShootShooter;
-import frc.robot.commands.Autonomous.TwoBall;
+import frc.robot.commands.Autonomous.TerminalTwoBall;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
@@ -43,7 +43,7 @@ public class RobotContainer {
   public static final XboxController driverController = new XboxController(OIConstants.DRIVER_CONTROLLER_PORT);
   public static final XboxController manipulatorController = new XboxController(OIConstants.MANIPULATOR_CONTROLLER_PORT);
 
-  public static TwoBall defaultAutoPath = new TwoBall(driveSubsystem, intakeSubsystem, shooterSubsystem, armSubsystem);
+  public static TerminalTwoBall defaultAutoPath = new TerminalTwoBall(driveSubsystem, intakeSubsystem, shooterSubsystem, armSubsystem);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {

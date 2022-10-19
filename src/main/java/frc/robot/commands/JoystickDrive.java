@@ -48,8 +48,8 @@ public class JoystickDrive extends CommandBase {
 
     // slow mode
     if (driverController.getXButton()) {
-      throttle = Math.signum(throttle) * 0.15;
-      rotate = Math.signum(rotate) * 0.15;
+      throttle = Math.signum(throttle) * 0.25;
+      rotate = Math.signum(rotate) * 0.25;
     }
 
     double offsetX = LimelightSubsystem.getLimelightX();

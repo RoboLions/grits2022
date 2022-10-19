@@ -19,12 +19,12 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
-public class TwoBall extends SequentialCommandGroup {
+public class TerminalTwoBall extends SequentialCommandGroup {
 
-  public TwoBall(final DriveSubsystem driveSubsystem, IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem, ArmSubsystem armSubsystem) {
+  public TerminalTwoBall(final DriveSubsystem driveSubsystem, IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem, ArmSubsystem armSubsystem) {
     super(
       
-      new FollowTrajectory(driveSubsystem, Trajectories.twoBall.toSecondBall).withTimeout(3),
+      new FollowTrajectory(driveSubsystem, Trajectories.terminalTwoBall.toSecondBall).withTimeout(1.75),
 
       new ParallelCommandGroup(
         new AutoDropArm(armSubsystem).withTimeout(0.3),

@@ -17,7 +17,10 @@ import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.ShooterHoodConstants;
 import frc.robot.commands.Autonomous.ThreeBall;
-import frc.robot.commands.Autonomous.TwoBall;
+import frc.robot.commands.Autonomous.FourBall;
+import frc.robot.commands.Autonomous.HangarTwoBall;
+import frc.robot.commands.Autonomous.TerminalTwoBall;
+import frc.robot.commands.Autonomous.Testing;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
@@ -123,8 +126,11 @@ public class Robot extends TimedRobot {
     hoodMotor.config_kI(0, ShooterHoodConstants.I, 10);
     hoodMotor.config_kD(0, ShooterHoodConstants.D, 10);
 
-    m_chooser.addOption("2 Ball", new TwoBall(driveSubsystem, intakeSubsystem, shooterSubsystem, armSubsystem));
+    m_chooser.addOption("Terminal 2 Ball", new TerminalTwoBall(driveSubsystem, intakeSubsystem, shooterSubsystem, armSubsystem));
     m_chooser.addOption("3 Ball", new ThreeBall(driveSubsystem, intakeSubsystem, shooterSubsystem, armSubsystem, limelightSubsystem));
+    m_chooser.addOption("Hangar 2 Ball", new HangarTwoBall(driveSubsystem, intakeSubsystem, shooterSubsystem, armSubsystem));
+    m_chooser.addOption("4 Ball", new FourBall(driveSubsystem, intakeSubsystem, shooterSubsystem, armSubsystem, limelightSubsystem));
+    m_chooser.addOption("Testing", new Testing(driveSubsystem, intakeSubsystem, shooterSubsystem, armSubsystem));
 
     UsbCamera camera = CameraServer.startAutomaticCapture();
     camera.setResolution(240, 180);

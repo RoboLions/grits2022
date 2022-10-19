@@ -16,16 +16,28 @@ import edu.wpi.first.wpilibj.Filesystem;
 
 public class Trajectories {
     
-    public static Trajectory getToSecondBall() {
-        String trajectoryJSON = "output/TwoBall.wpilib.json";
+    public static Trajectory getToTSecondBall() {
+        String trajectoryJSON = "output/TerminalTwoBall.wpilib.json";
         Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
-        Trajectory toSecondBall = new Trajectory();
+        Trajectory toTSecondBall = new Trajectory();
         try {
-            toSecondBall = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+            toTSecondBall = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
         } catch (IOException ex) {
             DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
         }
-        return toSecondBall;
+        return toTSecondBall;
+    }
+
+    public static Trajectory getToHSecondBall() {
+        String trajectoryJSON = "output/HangarTwoBall.wpilib.json";
+        Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
+        Trajectory toHSecondBall = new Trajectory();
+        try {
+            toHSecondBall = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+        } catch (IOException ex) {
+            DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
+        }
+        return toHSecondBall;
     }
 
     public static Trajectory getToThirdBallPartOne() {
@@ -88,10 +100,12 @@ public class Trajectories {
         return toFourBallPartThree;
     }
 
+    public static class terminalTwoBall {
+        public static final Trajectory toSecondBall = getToTSecondBall();
+    }
 
-
-    public static class twoBall {
-        public static final Trajectory toSecondBall = getToSecondBall();
+    public static class hangarTwoBall {
+        public static final Trajectory toSecondBall = getToHSecondBall();
     }
 
     public static class threeBall {
