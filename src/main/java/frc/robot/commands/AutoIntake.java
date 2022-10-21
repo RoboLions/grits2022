@@ -32,6 +32,7 @@ public class AutoIntake extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     intakeSubsystem.stop();
+    System.out.println("FIRST PARALLEL COMMAND GROUP STOP");
   }
 
   // Returns true when the command should end.

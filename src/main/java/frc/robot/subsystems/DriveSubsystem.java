@@ -214,7 +214,7 @@ public class DriveSubsystem extends SubsystemBase {
       rightSpeed = (linearTravelSpeed - rotateSpeed);
     }
 
-    System.out.println("LL ALIGN leftSpeed: " + leftSpeed + ", rightSpeed: " + rightSpeed); 
+    // System.out.println("LL ALIGN leftSpeed: " + leftSpeed + ", rightSpeed: " + rightSpeed); 
     straightDrive(leftSpeed, rightSpeed);
   }
 

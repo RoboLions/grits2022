@@ -20,23 +20,21 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class FourBall extends SequentialCommandGroup {
-  /** Creates a new FourBall. */
+ 
   public FourBall(final DriveSubsystem driveSubsystem, IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem, ArmSubsystem armSubsystem, LimelightSubsystem limelightSubsystem) {
     super(
-      new AutoDropArm(armSubsystem).withTimeout(0.3),
+
+      new FollowTrajectory(driveSubsystem, Trajectories.fourBall.toFourthBallPartOne).withTimeout(1.7),
 
       new ParallelCommandGroup(
-        new FollowTrajectory(driveSubsystem, Trajectories.fourBall.toFourthBallPartOne).withTimeout(1.4),
-        new AutoIntake(intakeSubsystem).withTimeout(1.4)
+        new AutoDropArm(armSubsystem).withTimeout(0.4),
+        new AutoIntake(intakeSubsystem).withTimeout(1)
       ),
 
       new AutoMoveElevatorDown(shooterSubsystem).withTimeout(0.3),
 
-      new AutoShoot(shooterSubsystem).withTimeout(1.5),
+      new AutoShoot(shooterSubsystem).withTimeout(2),
 
       new ParallelCommandGroup(
         new FollowTrajectory(driveSubsystem, Trajectories.fourBall.toFourthBallPartTwo).withTimeout(4.5),
@@ -47,7 +45,7 @@ public class FourBall extends SequentialCommandGroup {
 
       new FollowTrajectory(driveSubsystem, Trajectories.fourBall.toFourthBallPartThree).withTimeout(3.5),
 
-      new AutoShoot(shooterSubsystem).withTimeout(1.5)
+      new AutoShoot(shooterSubsystem).withTimeout(2)
     );
   }
 }

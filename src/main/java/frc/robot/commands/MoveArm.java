@@ -53,7 +53,7 @@ public class MoveArm extends CommandBase {
         }*/
 
         switch(wrist_motion_state) {
-            case 0: // manual moving with stick
+            case 0: 
                 armSubsystem.setArmPower(0.0);
                 
                 if(armSubsystem.armPID.deadband_active) {

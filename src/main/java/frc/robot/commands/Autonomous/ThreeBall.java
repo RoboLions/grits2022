@@ -34,8 +34,8 @@ public class ThreeBall extends SequentialCommandGroup {
       ),
 
       new ParallelCommandGroup(
-        new AutoMoveElevatorDown(shooterSubsystem).withTimeout(0.3),
-        new AutoAlignShooter(driveSubsystem).withTimeout(0.3)
+        new AutoMoveElevatorDown(shooterSubsystem).withTimeout(0.3)
+        //new AutoAlignShooter(driveSubsystem).withTimeout(0.3)
       ),
       
       new AutoShoot(shooterSubsystem).withTimeout(2),
