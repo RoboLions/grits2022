@@ -51,6 +51,8 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public void stop() {
     intakeMotor.set(0);
+    frontElevatorMotor.set(0);
+    backElevatorMotor.set(0);
   }
 
   @Override

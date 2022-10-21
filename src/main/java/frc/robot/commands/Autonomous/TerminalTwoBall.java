@@ -21,6 +21,7 @@ import frc.robot.subsystems.ShooterSubsystem;
 
 public class TerminalTwoBall extends SequentialCommandGroup {
 
+  // 68 inches from center of ball
   public TerminalTwoBall(final DriveSubsystem driveSubsystem, IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem, ArmSubsystem armSubsystem) {
     super(
       

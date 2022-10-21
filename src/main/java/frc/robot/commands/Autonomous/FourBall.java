@@ -22,28 +22,32 @@ import frc.robot.subsystems.ShooterSubsystem;
 
 public class FourBall extends SequentialCommandGroup {
  
+  // set 68 inches from the center of the ball
   public FourBall(final DriveSubsystem driveSubsystem, IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem, ArmSubsystem armSubsystem, LimelightSubsystem limelightSubsystem) {
     super(
-
-      new FollowTrajectory(driveSubsystem, Trajectories.fourBall.toFourthBallPartOne).withTimeout(1.7),
+      
+      new FollowTrajectory(driveSubsystem, Trajectories.fourBall.toFourthBallPartOne).withTimeout(1.7), // goes 58 inches
 
       new ParallelCommandGroup(
-        new AutoDropArm(armSubsystem).withTimeout(0.4),
-        new AutoIntake(intakeSubsystem).withTimeout(1)
+        new AutoDropArm(armSubsystem).withTimeout(0.3),
+        new AutoIntake(intakeSubsystem).withTimeout(1.4)
       ),
 
       new AutoMoveElevatorDown(shooterSubsystem).withTimeout(0.3),
 
-      new AutoShoot(shooterSubsystem).withTimeout(2),
+      new AutoShoot(shooterSubsystem).withTimeout(1.9),
 
       new ParallelCommandGroup(
         new FollowTrajectory(driveSubsystem, Trajectories.fourBall.toFourthBallPartTwo).withTimeout(4.5),
         new AutoIntake(intakeSubsystem).withTimeout(4.5)
       ),
 
-      new AutoMoveElevatorDown(shooterSubsystem).withTimeout(0.3),
+      new ParallelCommandGroup(
+        new FollowTrajectory(driveSubsystem, Trajectories.fourBall.toFourthBallPartThree).withTimeout(3),
+        new AutoIntake(intakeSubsystem).withTimeout(1.5)
+      ),
 
-      new FollowTrajectory(driveSubsystem, Trajectories.fourBall.toFourthBallPartThree).withTimeout(3.5),
+      new AutoMoveElevatorDown(shooterSubsystem).withTimeout(0.3),
 
       new AutoShoot(shooterSubsystem).withTimeout(2)
     );

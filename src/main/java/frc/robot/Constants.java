@@ -84,7 +84,7 @@ public final class Constants {
     public static final class ArmConstants {
         public static final int TIMEOUT_MS = 10;
 
-        public static final double UP_POSITION = -85.0; // -55 on old intake design
+        public static final double UP_POSITION = -85.0; //-55 on old intake design
         public static final double DOWN_POSITION = -30.0; // 60 on old intake design
 
         /* 

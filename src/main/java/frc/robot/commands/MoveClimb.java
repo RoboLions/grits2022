@@ -126,16 +126,16 @@ public class MoveClimb extends CommandBase {
     else if (back_button) {
       climbSubsystem.setLeftClimbPower(0.2); 
       climbSubsystem.setRightClimbPower(-0.2);
-    } 
-    // SERVOS OUT
-    else if (start_button) {
-      climbSubsystem.moveServoOut();
     } else if (!left_bumper && !right_bumper ) {
       climbSubsystem.setLeftClimbPower(0); 
       climbSubsystem.setRightClimbPower(0);
     } else {
       climbSubsystem.setLeftClimbPower(0); 
       climbSubsystem.setRightClimbPower(0);
+    }
+
+    if (start_button) {
+      climbSubsystem.moveServoOut();
     }
 
     if (driverController.getLeftTriggerAxis() > 0.25) {

@@ -24,9 +24,11 @@ import frc.robot.subsystems.ShooterSubsystem;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class HangarTwoBall extends SequentialCommandGroup {
   /** Creates a new HangarTwoBall. */
+
+  // set 68 inches from the center of the ball
   public HangarTwoBall(final DriveSubsystem driveSubsystem, IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem, ArmSubsystem armSubsystem) {
     super (
-      new FollowTrajectory(driveSubsystem, Trajectories.hangarTwoBall.toSecondBall).withTimeout(1.75),
+      new FollowTrajectory(driveSubsystem, Trajectories.hangarTwoBall.toSecondBall).withTimeout(1.75), // goes 59 in.
 
       new ParallelCommandGroup(
         new AutoDropArm(armSubsystem).withTimeout(0.3),
