@@ -30,9 +30,10 @@ public class RollIntake extends CommandBase {
     boolean rightTrigger = manipulatorController.getRightTriggerAxis() > 0.25;
     boolean leftTrigger = manipulatorController.getLeftTriggerAxis() > 0.25;
 
-    if (rightTrigger) {
+    /*if (rightTrigger) {
       intakeSubsystem.outtakeBalls();
-    } else if (leftTrigger) {
+    } else */
+    if (leftTrigger) {
       intakeSubsystem.intakeBalls();
     } else {
       intakeSubsystem.stop();

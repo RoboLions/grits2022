@@ -24,12 +24,11 @@ public class TerminalTwoBall extends SequentialCommandGroup {
   // 68 inches from center of ball
   public TerminalTwoBall(final DriveSubsystem driveSubsystem, IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem, ArmSubsystem armSubsystem) {
     super(
-      
-      new FollowTrajectory(driveSubsystem, Trajectories.terminalTwoBall.toSecondBall).withTimeout(1.75),
 
       new ParallelCommandGroup(
         new AutoDropArm(armSubsystem).withTimeout(0.3),
-        new AutoIntake(intakeSubsystem).withTimeout(2)
+        new FollowTrajectory(driveSubsystem, Trajectories.terminalTwoBall.toSecondBall).withTimeout(1.75), // goes 59 in.
+        new AutoIntake(intakeSubsystem).withTimeout(2.5)
       ),
 
       new AutoMoveElevatorDown(shooterSubsystem).withTimeout(0.3),

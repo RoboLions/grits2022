@@ -31,7 +31,8 @@ public class AutoIntake extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    intakeSubsystem.stop();
+    //intakeSubsystem.stop();
+    intakeSubsystem.intakeBalls();
     System.out.println("FIRST PARALLEL COMMAND GROUP STOP");
   }
 

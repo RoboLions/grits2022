@@ -78,6 +78,7 @@ public class ShootShooter extends CommandBase {
       if (Math.abs(shooterSubsystem.getShooterError()) < 2 && // original allowed error: 1.5mps
           Math.abs(shooterSubsystem.getHoodError()) < 4) { // original allowed error: 2mps
         counter++;
+        System.out.println("WITHIN OUR ERROR RANGE");
       } else {
         counter = 0;
         shooterTimer.start(); // set time to 0 when error > 0.5 for both hood and shooter
@@ -85,8 +86,9 @@ public class ShootShooter extends CommandBase {
     
     // SHOOT LOWER HUB
     } else if (manipulatorController.getLeftBumper()) { 
-      shooterSubsystem.setShooterMPS(40); // 15
-      shooterSubsystem.setHoodMPS(20); // 10
+      shooterSubsystem.setShooterMPS(15); // 15
+      shooterSubsystem.setHoodMPS(10); // 10
+      shooterSubsystem.moveBeltUp();
     } else {
       shooterSubsystem.stopShooter();
     }
@@ -107,6 +109,7 @@ public class ShootShooter extends CommandBase {
     // MANUAL MOVE ELEVATOR DOWN AND REVERSE SHOOTER
     else if (manipulatorController.getAButton()) {
       shooterSubsystem.moveBeltDown();
+      System.out.println("A button presed");
     } else {
       shooterSubsystem.stopBelt();
     }

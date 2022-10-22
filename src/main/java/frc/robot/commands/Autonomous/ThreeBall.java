@@ -26,11 +26,10 @@ public class ThreeBall extends SequentialCommandGroup {
   public ThreeBall(final DriveSubsystem driveSubsystem, IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem, ArmSubsystem armSubsystem, LimelightSubsystem limelightSubsystem) { 
     super(
 
-      new FollowTrajectory(driveSubsystem, Trajectories.terminalTwoBall.toSecondBall).withTimeout(1.75),
-
       new ParallelCommandGroup(
         new AutoDropArm(armSubsystem).withTimeout(0.3),
-        new AutoIntake(intakeSubsystem).withTimeout(1.4)
+        new FollowTrajectory(driveSubsystem, Trajectories.terminalTwoBall.toSecondBall).withTimeout(1.75), // goes 59 in.
+        new AutoIntake(intakeSubsystem).withTimeout(2.5)
       ),
 
       new ParallelCommandGroup(

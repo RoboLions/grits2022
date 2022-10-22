@@ -22,11 +22,13 @@ public class ShooterSubsystem extends SubsystemBase {
   private static WPI_TalonFX leftShooterMotor = RobotMap.leftShooterMotor;
   private static WPI_TalonFX rightShooterMotor = RobotMap.rightShooterMotor;
   private static WPI_TalonFX hoodMotor = RobotMap.shooterHoodMotor;
+  private static WPI_VictorSPX intakeMotor = RobotMap.intakeRollerMotor;
 
   public static final double LEFT_MOVE_BELT_UP_POWER = 0.5;
-  public static final double LEFT_MOVE_BELT_DOWN_POWER = -0.3;
+  public static final double LEFT_MOVE_BELT_DOWN_POWER = -0.5;
   public static final double RIGHT_MOVE_BELT_UP_POWER = -0.5;
-  public static final double RIGHT_MOVE_BELT_DOWN_POWER = 0.3;
+  public static final double RIGHT_MOVE_BELT_DOWN_POWER = 0.5;
+  public static final double OUT_POWER = -0.75;
 
   public double shooterError = 0;
   public double hoodError = 0;
@@ -163,18 +165,22 @@ public class ShooterSubsystem extends SubsystemBase {
   public void moveBeltUp() {
     frontElevatorMotor.set(LEFT_MOVE_BELT_UP_POWER);
     backElevatorMotor.set(RIGHT_MOVE_BELT_UP_POWER);
+    //System.out.println("moving belt up");
   }
   
   public void stopBelt() {
 		frontElevatorMotor.set(0);
     backElevatorMotor.set(0);
+    //System.out.println("stop belts");
 	}
   
   public void moveBeltDown() {
     frontElevatorMotor.set(LEFT_MOVE_BELT_DOWN_POWER);
     backElevatorMotor.set(RIGHT_MOVE_BELT_DOWN_POWER);
-    leftShooterMotor.set(0.25);
-    rightShooterMotor.set(-0.25);
+    leftShooterMotor.set(0.3);
+    rightShooterMotor.set(-0.3);
+    intakeMotor.set(OUT_POWER);
+    //ee3System.out.println("moving belt down, reverse shooter, reverse intake");
   }
 
   public void setHoodSpeed(double hoodSpeed) {  

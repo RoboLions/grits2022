@@ -26,11 +26,10 @@ public class FourBall extends SequentialCommandGroup {
   public FourBall(final DriveSubsystem driveSubsystem, IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem, ArmSubsystem armSubsystem, LimelightSubsystem limelightSubsystem) {
     super(
       
-      new FollowTrajectory(driveSubsystem, Trajectories.fourBall.toFourthBallPartOne).withTimeout(1.7), // goes 58 inches
-
       new ParallelCommandGroup(
         new AutoDropArm(armSubsystem).withTimeout(0.3),
-        new AutoIntake(intakeSubsystem).withTimeout(1.4)
+        new FollowTrajectory(driveSubsystem, Trajectories.fourBall.toFourthBallPartOne).withTimeout(1.7),
+        new AutoIntake(intakeSubsystem).withTimeout(2.5)
       ),
 
       new AutoMoveElevatorDown(shooterSubsystem).withTimeout(0.3),
