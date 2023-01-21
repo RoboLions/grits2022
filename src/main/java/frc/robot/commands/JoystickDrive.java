@@ -18,7 +18,44 @@ public class JoystickDrive extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+
+  public void execute() {
+
+    double throttle = driverController.getLeftY();
+    double rotate = driverController.getRightX();
+
+    if ((throttle > 0 && throttle < 0.25) || (throttle < 0 && throttle > -0.25)) {
+      throttle = 0;
+    } else {
+      // meters per sec
+      throttle = ((Math.tan(.465 * (throttle * Math.PI)) / 1)) * 0.25;
+      // throttle = throttle * 0.35;
+    }
+
+    if ((rotate > 0 && rotate < 0.25) || (rotate < 0 && rotate > -0.25)) {
+      rotate = 0;
+    } else {
+      rotate = rotate * 0.25; // * 0.25;
+    }
+
+    // slow mode
+    if (driverController.getXButton()) {
+      throttle = Math.signum(throttle) * 0.25;
+      rotate = Math.signum(rotate) * 0.25;
+    }
+
+    double offsetX = LimelightSubsystem.getLimelightX();
+
+    // limelight rotation (auto aim) mode
+    if (driverController.getBButton()) {
+      double setPoint = 0.0; // final point in degrees
+      rotate = (-1) * driveSubsystem.limelightRotationPID.execute(setPoint, offsetX);
+    }
+    
+    driveSubsystem.driveWithRotation(throttle, -rotate); // motion control here with joystick throttle and rotation inputs
+    //driveSubsystem.driveWithRotation(0.5, 0);
+    //driveSubsystem.drive(-throttle, rotate);
+  }
 
   // Called once the command ends or is interrupted.
   @Override
