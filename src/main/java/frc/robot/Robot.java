@@ -37,7 +37,6 @@ import frc.robot.subsystems.ShooterSubsystem;
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
-  
   private RobotContainer m_robotContainer;
 
   private DriveSubsystem driveSubsystem = m_robotContainer.driveSubsystem;
@@ -69,10 +68,9 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
-    m_robotContainer.driveSubsystem.setModePercentVoltage();
-    m_robotContainer.driveSubsystem.resetEncoders();
 
     driveSubsystem.resetEncoders();
+    driveSubsystem.ZeroYaw();
     limelightSubsystem.setVisionProcessor();
 
     //climbSubsystem.resetEncoder();
