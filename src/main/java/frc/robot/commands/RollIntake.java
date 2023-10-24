@@ -27,18 +27,25 @@ public class RollIntake extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    boolean rightTrigger = manipulatorController.getRightTriggerAxis() > 0.25;
-    boolean leftTrigger = manipulatorController.getLeftTriggerAxis() > 0.25;
+    if (manipulatorController.getAButton()) {
+      intakeSubsystem.intakeBalls();
+      // System.out.println("A button presed");
+    } else {
+      intakeSubsystem.stop();      
+    }
+    // boolean rightTrigger = manipulatorController.getRightTriggerAxis() > 0.25;
+    // boolean leftTrigger = manipulatorController.getLeftTriggerAxis() > 0.25;
 
     /*if (rightTrigger) {
       intakeSubsystem.outtakeBalls();
     } else */
-    if (leftTrigger) {
-      intakeSubsystem.intakeBalls();
-    } else {
-      intakeSubsystem.stop();
-    }
-  }
+  //   if (leftTrigger) {
+  //     intakeSubsystem.intakeBalls();
+      
+  //   } else {
+  //     intakeSubsystem.stop();
+  //   }
+   }
 
   // Called once the command ends or is interrupted.
   @Override

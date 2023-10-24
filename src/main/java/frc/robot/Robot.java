@@ -176,6 +176,8 @@ public class Robot extends TimedRobot {
     SmartDashboard.putBoolean("WITHIN 1.7 TO 5 METERS?", limelightSubsystem.isWithinDistance());
     SmartDashboard.putNumber("LIMELIGHT OFFSET", limelightSubsystem.getLimelightX());
     SmartDashboard.putNumber("Horizontal Distance", limelightSubsystem.getHorizontalDistance());
+
+    SmartDashboard.putNumber("IMU Pitch", RobotMap.intakeIMU.getPitch());
   }
 
   /** This function is called once each time the robot enters Disabled mode. */

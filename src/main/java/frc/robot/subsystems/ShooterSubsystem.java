@@ -38,6 +38,9 @@ public class ShooterSubsystem extends SubsystemBase {
     rightShooterMotor.setNeutralMode(NeutralMode.Coast);
     hoodMotor.setNeutralMode(NeutralMode.Coast);
 
+    leftShooterMotor.setInverted(true);
+    rightShooterMotor.setInverted(true);
+
     backElevatorMotor.setNeutralMode(NeutralMode.Coast);
     frontElevatorMotor.setNeutralMode(NeutralMode.Coast);
 
@@ -165,6 +168,8 @@ public class ShooterSubsystem extends SubsystemBase {
   public void moveBeltUp() {
     frontElevatorMotor.set(LEFT_MOVE_BELT_UP_POWER);
     backElevatorMotor.set(RIGHT_MOVE_BELT_UP_POWER);
+    rightShooterMotor.set(0.4);
+    leftShooterMotor.set(-0.4);
     //System.out.println("moving belt up");
   }
   
@@ -177,7 +182,7 @@ public class ShooterSubsystem extends SubsystemBase {
   public void moveBeltDown() {
     frontElevatorMotor.set(LEFT_MOVE_BELT_DOWN_POWER);
     backElevatorMotor.set(RIGHT_MOVE_BELT_DOWN_POWER);
-    leftShooterMotor.set(0.3);
+    //leftShooterMotor.set(0.3);
     rightShooterMotor.set(-0.3);
     intakeMotor.set(OUT_POWER);
     //ee3System.out.println("moving belt down, reverse shooter, reverse intake");

@@ -4,6 +4,8 @@
 
 package frc.robot.commands;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
@@ -12,11 +14,14 @@ import frc.robot.RobotContainer;
 import frc.robot.RobotMap;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.lib.RoboLionsShooterCalculate;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
 public class ShootShooter extends CommandBase {
 
+  private static WPI_TalonFX leftShooterMotor = RobotMap.leftShooterMotor;
+  private static WPI_TalonFX rightShooterMotor = RobotMap.rightShooterMotor;
   private final static XboxController manipulatorController = RobotContainer.manipulatorController;
   private final static XboxController driverController = RobotContainer.driverController;
   private final ShooterSubsystem shooterSubsystem;
@@ -70,7 +75,7 @@ public class ShootShooter extends CommandBase {
     // System.out.println("hood error: " + shooterSubsystem.getHoodError()); // testing purposes
 
     // SHOOT UPPER HUB
-    if (manipulatorController.getXButton()) {
+    if (manipulatorController.getRightBumper()) {
       shooterSubsystem.setShooterMPS(shooterSpeed);
       shooterSubsystem.setHoodMPS(hoodSpeed);
 
@@ -86,15 +91,15 @@ public class ShootShooter extends CommandBase {
     
     // SHOOT LOWER HUB
     } else if (manipulatorController.getLeftBumper()) { 
-      shooterSubsystem.setShooterMPS(15); // 15
-      shooterSubsystem.setHoodMPS(10); // 10
+      //rightShooterMotor.set(-0.4);
+     // leftShooterMotor.set(0.4); // 30 // 10
       shooterSubsystem.moveBeltUp();
     } else {
       shooterSubsystem.stopShooter();
     }
 
     if (driverController.getAButtonPressed()) {
-      LimelightSubsystem.setVisionProcessor();
+      // LimelightSubsystem.setVisionProcessor();
     } 
     /*
     if (driverController.getYButtonPressed()) {
@@ -102,16 +107,13 @@ public class ShootShooter extends CommandBase {
     }*/
 
     // elevator only goes up when the error is small enough for x number of seconds
-    if (manipulatorController.getXButton() && counter > 20) {
+    if (manipulatorController.getXButton()) { // && counter > 20) {
       shooterSubsystem.moveBeltUp();
       //System.out.println("TIME WHEN SHOT: " + shooterTimer.get());
-    } 
-    // MANUAL MOVE ELEVATOR DOWN AND REVERSE SHOOTER
-    else if (manipulatorController.getAButton()) {
-      shooterSubsystem.moveBeltDown();
-      System.out.println("A button presed");
-    } else {
-      shooterSubsystem.stopBelt();
+    }
+    // MANUAL MOVE EL) EVATOR DOWN AND REVERSE SHOOTER
+   else {
+      // shooterSubsystem.stopBelt();
     }
   }
 

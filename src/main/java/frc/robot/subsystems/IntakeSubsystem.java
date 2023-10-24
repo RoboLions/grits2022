@@ -39,8 +39,8 @@ public class IntakeSubsystem extends SubsystemBase {
     intakeMotor.set(IN_POWER);
     frontElevatorMotor.set(LEFT_MOVE_BELT_UP_POWER);
     backElevatorMotor.set(RIGHT_MOVE_BELT_UP_POWER);
-    //leftShooterMotor.set(0.1);
-    //rightShooterMotor.set(-0.1);
+    leftShooterMotor.set(0.3);
+    rightShooterMotor.set(-0.3);
     //System.out.println("intake balls");
   }
 
